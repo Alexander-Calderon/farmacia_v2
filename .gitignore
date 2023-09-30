@@ -2,6 +2,7 @@
 **idea/
 **/obj/
 **/bin/
+**/Data/Migrations
 
 # estos solo si están en el mismo nivel del gitignore
 # *vscode/*
