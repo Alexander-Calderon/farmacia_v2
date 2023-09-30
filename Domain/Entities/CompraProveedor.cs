@@ -15,4 +15,10 @@ namespace Domain.Entities;
 
         public int IdEmpleadoFk { get; set; }
         public Empleado Empleado { get; set; }
+
+        public int Cantidad { get; set; }
+
+        public decimal PrecioUnitario { get; set; }
+
+        public DateTime FechaCompra { get; set; }
     }

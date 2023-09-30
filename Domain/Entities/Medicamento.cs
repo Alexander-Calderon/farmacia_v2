@@ -23,5 +23,6 @@ namespace Domain.Entities;
         public Marca Marca { get; set; }
 
         public ICollection<DetalleFactura> DetalleFacturas { get; set; }
+        public ICollection<CompraProveedor> CompraProveedores { get; set; }
         
     }
