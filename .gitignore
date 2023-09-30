@@ -1,0 +1,14 @@
+**vscode/
+**idea/
+**/obj/
+**/bin/
+
+# estos solo si están en el mismo nivel del gitignore
+# *vscode/*
+# */obj/*
+# */bin/*
+# fin ignored bad pattern
+
+
+#se hace un cambio para que funcione.
+
