@@ -6545,19 +6545,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ddieg\\.nuget\\packages\\": {}
+    "C:\\Users\\APT01-039\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\farmacia_v2\\ApiFarmacia\\ApiFarmacia.csproj",
+      "projectUniqueName": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\ApiFarmacia\\ApiFarmacia.csproj",
       "projectName": "ApiFarmacia",
-      "projectPath": "c:\\farmacia_v2\\ApiFarmacia\\ApiFarmacia.csproj",
-      "packagesPath": "C:\\Users\\ddieg\\.nuget\\packages\\",
-      "outputPath": "c:\\farmacia_v2\\ApiFarmacia\\obj\\",
+      "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\ApiFarmacia\\ApiFarmacia.csproj",
+      "packagesPath": "C:\\Users\\APT01-039\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\ApiFarmacia\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ddieg\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\APT01-039\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -6569,8 +6569,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\farmacia_v2\\Application\\Application.csproj": {
-              "projectPath": "c:\\farmacia_v2\\Application\\Application.csproj"
+            "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Application\\Application.csproj": {
+              "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Application\\Application.csproj"
             }
           }
         }

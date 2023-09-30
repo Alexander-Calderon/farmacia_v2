@@ -5273,19 +5273,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ddieg\\.nuget\\packages\\": {}
+    "C:\\Users\\APT01-039\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\farmacia_v2\\Application\\Application.csproj",
+      "projectUniqueName": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "c:\\farmacia_v2\\Application\\Application.csproj",
-      "packagesPath": "C:\\Users\\ddieg\\.nuget\\packages\\",
-      "outputPath": "c:\\farmacia_v2\\Application\\obj\\",
+      "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Application\\Application.csproj",
+      "packagesPath": "C:\\Users\\APT01-039\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ddieg\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\APT01-039\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -5297,11 +5297,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\farmacia_v2\\Domain\\Domain.csproj": {
-              "projectPath": "c:\\farmacia_v2\\Domain\\Domain.csproj"
+            "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Domain\\Domain.csproj": {
+              "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Domain\\Domain.csproj"
             },
-            "c:\\farmacia_v2\\Persistence\\Persistence.csproj": {
-              "projectPath": "c:\\farmacia_v2\\Persistence\\Persistence.csproj"
+            "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Persistence\\Persistence.csproj": {
+              "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Persistence\\Persistence.csproj"
             }
           }
         }

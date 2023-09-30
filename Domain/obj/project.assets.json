@@ -5045,19 +5045,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ddieg\\.nuget\\packages\\": {}
+    "C:\\Users\\APT01-039\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\farmacia_v2\\Domain\\Domain.csproj",
+      "projectUniqueName": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "c:\\farmacia_v2\\Domain\\Domain.csproj",
-      "packagesPath": "C:\\Users\\ddieg\\.nuget\\packages\\",
-      "outputPath": "c:\\farmacia_v2\\Domain\\obj\\",
+      "projectPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Domain\\Domain.csproj",
+      "packagesPath": "C:\\Users\\APT01-039\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\APT01-039\\Documents\\farmacia_v2\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\ddieg\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\APT01-039\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
