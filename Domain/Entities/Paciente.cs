@@ -14,4 +14,6 @@ namespace Domain.Entities;
         public TipoDocumento TipoDocumento { get; set; }
         public int IdDireccionFk { get; set; }
         public Direccion Direccion { get; set; }
+        public ICollection<Factura> Facturas{ get; set; }
+
     }

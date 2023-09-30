@@ -12,4 +12,5 @@ namespace Domain.Entities;
         public ICollection<Paciente> Pacientes { get; set;}
         public ICollection<Empleado> Empleados { get; set;}
         public ICollection<Proveedor> Proveedores {get; set;}
+        public ICollection<Doctor> Doctores{ get; set;}
     }

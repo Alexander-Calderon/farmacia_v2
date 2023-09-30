@@ -16,4 +16,6 @@ namespace Domain.Entities;
         public int IdDireccionFk {get; set;}
         public Direccion Direccion {get; set;}
 
+        public ICollection<CompraProveedor> CompraProveedores {get; set;}
+
     }

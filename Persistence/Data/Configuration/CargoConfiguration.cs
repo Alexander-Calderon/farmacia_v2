@@ -12,7 +12,7 @@ namespace Persistence.Data.Configuration;
                 builder.ToTable("cargos");
 
                 builder.Property(p=> p.Nombre)
-                .HasColumnName("nombre")
+                .HasColumnName("Nombre")
                 .HasMaxLength(50)
                 .IsRequired();
             }

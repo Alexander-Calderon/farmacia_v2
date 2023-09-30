@@ -22,5 +22,9 @@ namespace Domain.Entities;
         public int IdUserFk {get; set;}
         public User User {get; set;}
 
+        public ICollection<Factura> Facturas {get; set;}
+
+        public ICollection<CompraProveedor> CompraProveedores {get; set;}
+
 
     }

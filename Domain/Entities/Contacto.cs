@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities;
 
-    public class Contacto
+    public class Contacto  : BaseEntity
     {
         public string Descripcion {get; set;}
         public ICollection<ContactoDetalle> ContactoDetalles {get; set;}
