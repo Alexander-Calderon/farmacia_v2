@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Entities;
 
-namespace Domain.Entities;
+namespace ApiFarmacia.Dtos;
 
-    public class Estado : BaseEntity
+    public class EstadoDto:BaseEntity
     {
         public string Nombre { get; set;}
-        public ICollection<Factura> Facturas { get; set;}
     }
