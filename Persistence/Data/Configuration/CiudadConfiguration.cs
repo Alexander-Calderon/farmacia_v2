@@ -18,6 +18,6 @@ namespace Persistence.Data.Configuration;
 
                 builder.HasOne(p => p.Departamento)
                 .WithMany(p => p.Ciudades)
-                .HasForeignKey(p => p.IdDepartamento); 
+                .HasForeignKey(p => p.IdDepartamentoFK); 
             }
         }
