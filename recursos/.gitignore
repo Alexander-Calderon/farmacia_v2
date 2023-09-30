@@ -2,7 +2,7 @@
 **idea/
 **/obj/
 **/bin/
-**/recursos/
+
 
 # estos solo si están en el mismo nivel del gitignore
 # *vscode/*
