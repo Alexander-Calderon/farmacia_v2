@@ -11,4 +11,6 @@ namespace Domain.Entities;
 
         public int IdDepartamento {get; set;}
         public Departamento Departamento { get; set; }
+
+        public ICollection<Direccion> Direcciones { get; set;}
     }

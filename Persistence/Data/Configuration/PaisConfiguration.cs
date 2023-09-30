@@ -5,15 +5,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.Data.Configuration;
-    public class CargoConfiguration : IEntityTypeConfiguration<Cargo>
+    public class PaisConfiguration : IEntityTypeConfiguration<Pais>
         {
-            public void Configure(EntityTypeBuilder<Cargo> builder)
+            public void Configure(EntityTypeBuilder<Pais> builder)
             {
-                builder.ToTable("cargos");
+                builder.ToTable("Pais");
 
                 builder.Property(p=> p.Nombre)
                 .HasColumnName("Nombre")
                 .HasMaxLength(50)
                 .IsRequired();
+
             }
         }

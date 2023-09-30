@@ -10,6 +10,7 @@ namespace Domain.Entities;
         public string Descripcion {get; set;}
 
         public int IdCiudadFk {get; set;}
+        public Ciudad Ciudad {get; set;}
 
         public ICollection<Proveedor> Proveedores {get; set;}
         public ICollection<Empleado> Empleados {get; set;}
