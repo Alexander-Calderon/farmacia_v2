@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities;
 
-    public class Proveedor:BaseEntity
+    public class Doctor:BaseEntity
     {
         public string Nombre {get; set;}
+        public DateTime FechaRegistro {get; set;}
         public string Documento {get; set;}
         public int IdTipoDocumentoFk {get; set;}
         public TipoDocumento TipoDocumento {get; set;}
-        public int IdContactoFk {get; set;}
-        public Contacto Contacto {get; set;}
-        public int IdDireccionFk {get; set;}
-        public Direccion Direccion {get; set;}
-
-        public ICollection<CompraProveedor> CompraProveedores {get; set;}
+        public int IdEspecialidadFk {get; set;}
+        public Especialidad Especialidad {get; set;}
+        public ICollection<Receta> Recetas {get; set;}
 
     }
