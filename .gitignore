@@ -3,6 +3,7 @@
 **/obj/
 **/bin/
 **/Data/Migrations
+mis_recursos/
 
 # estos solo si están en el mismo nivel del gitignore
 # *vscode/*
