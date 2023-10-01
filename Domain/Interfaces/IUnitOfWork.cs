@@ -27,6 +27,6 @@ namespace Domain.Interfaces
         ITipoContacto TipoContactos { get; }
         ITipoDocumento TipoDocumentos { get; }
         ITipoPresentacion TipoPresentaciones { get; }
-
+        Task<int> SaveAsync();
     }
 }

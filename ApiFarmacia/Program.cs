@@ -1,7 +1,8 @@
 //CONTENEDOR DE SERVICIOS O DEPENDENCIAS
 
 using System.Reflection;
-
+using ApiFarmacia.Extencions;
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -9,12 +10,13 @@ using Persistence;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly()); // para mapear objetos de una clase a otra automáticamente pa los Dtos.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureRateLimit();
 
 /*dotnet ef database update --project ./Persistencia/ --startup-project ./API/
  */
@@ -34,6 +36,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseIpRateLimiting();
     
 }
 

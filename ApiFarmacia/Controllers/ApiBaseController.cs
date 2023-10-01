@@ -6,7 +6,7 @@ namespace APIFarmacia.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-    public class ApiBaseController : ControllerBase
-    {
-        
-    }
+public class ApiBaseController : ControllerBase
+{
+
+}
