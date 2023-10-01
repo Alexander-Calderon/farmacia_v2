@@ -10,32 +10,32 @@ namespace Persistence;
             
             }
 
-            // public DbSet<Cargo> CARGOS { get; set; }
-            // public DbSet<Categoria> CATEGORIAS  { get; set; }
-            // public DbSet<Ciudad> CIUDADES  { get; set; }
-            // public DbSet<CompraProveedor> COMPRAS_PROVEEDORES  { get; set; }
-            // public DbSet<Contacto> CONTACTOS  { get; set; }
-            // public DbSet<Contacto> CONTACTOS_EMPLEADOS { get; set; }            
-            // public DbSet<Contacto> CONTACTOS_PROVEEDORES { get; set; }            
-            // public DbSet<Departamento> DEPARTAMENTOS  { get; set; }
-            // public DbSet<DetalleFactura> DETALLES_FACTURAS  { get; set; }
-            // public DbSet<Direccion> DIRECCIONES  { get; set; }
-            // public DbSet<Doctor> DOCTORES  { get; set; }
-            // public DbSet<Empleado> EMPLEADOS  { get; set; }
-            // public DbSet<Especializacion> ESPECIALIZACIONES_DOCTORES  { get; set; }
-            // public DbSet<Estado> ESTADOS_FACTURA  { get; set; }
-            // public DbSet<Factura> FACTURAS  { get; set; }
-            // public DbSet<Marca> MARCAS  { get; set; }
-            // public DbSet<Medicamento> MEDICAMENTOS  { get; set; }
-            // public DbSet<Paciente> PACIENTES  { get; set; }
-            // public DbSet<Pais> PAISES  { get; set; }
-            // public DbSet<Proveedor> PROVEEDORES  { get; set; }
-            // public DbSet<Receta> RECETAS  { get; set; }
-            // public DbSet<Rol> ROLES  { get; set; }
-            // public DbSet<TipoContacto> TIPOS_CONTACTOS  { get; set; }
-            // public DbSet<TipoDocumento> TIPOS_DOCUMENTOS  { get; set; }
-            // public DbSet<TipoPresentacion> TIPOS_PRESENTACIONES  { get; set; }
-            // public DbSet<User> USERS  { get; set; }
+             public DbSet<Cargo> Cargos  { get; set; }
+            public DbSet<Categoria> Categorias  { get; set; }
+            public DbSet<Ciudad> Ciudades  { get; set; }
+            public DbSet<CompraProveedor> CompraProveedores  { get; set; }
+            public DbSet<Contacto> Contactos  { get; set; }
+            public DbSet<ContactoEmpleado> ContactoEmpleados { get; set; }
+            public DbSet<ContactoProveedor> ContactoProveedores { get; set; }
+            public DbSet<Departamento> Departamentos  { get; set; }
+            public DbSet<DetalleFactura> DetalleFacturas  { get; set; }
+            public DbSet<Direccion> Direcciones  { get; set; }
+            public DbSet<Doctor> Doctores  { get; set; }
+            public DbSet<Empleado> Empleados  { get; set; }
+            public DbSet<Especializacion> Especializaciones  { get; set; }
+            public DbSet<Estado> Estados  { get; set; }
+            public DbSet<Factura> Facturas  { get; set; }
+            public DbSet<Marca> Marcas  { get; set; }
+            public DbSet<Medicamento> Medicamentos  { get; set; }
+            public DbSet<Paciente> Pacientes  { get; set; }
+            public DbSet<Pais> Paises  { get; set; }
+            public DbSet<Proveedor> Proveedores  { get; set; }
+            public DbSet<Receta> Recetas  { get; set; }
+            public DbSet<Rol> Roles  { get; set; }
+            public DbSet<TipoContacto> TipoContactos  { get; set; }
+            public DbSet<TipoDocumento> TipoDocumentos  { get; set; }
+            public DbSet<TipoPresentacion> TipoPresentaciones  { get; set; }
+            public DbSet<User> Users  { get; set; }
             
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {

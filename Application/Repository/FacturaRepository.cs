@@ -17,14 +17,14 @@ public class FacturaRepository : GenericRepository<Factura>, IFactura
     public override async Task<IEnumerable<Factura>> GetAllAsync()
     {
         return await _context.Facturas
-        .Include(p => p.DetalleFacturas)
+        .Include(p => p.DetallesFacturas)
         .ToListAsync();
     }
 
     public override async Task<Factura> GetByIdAsync(int id)
     {
         return await _context.Facturas
-        .Include(p => p.DetalleFacturas)
+        .Include(p => p.DetallesFacturas)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

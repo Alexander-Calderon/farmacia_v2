@@ -16,6 +16,9 @@ builder.Services.AddAutoMapper(Assembly.GetEntryAssembly()); // para mapear obje
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+/*dotnet ef database update --project ./Persistencia/ --startup-project ./API/
+ */
+
 // builder.Services.ConfigureApiVersioning();
 
 builder.Services.AddDbContext<FarmaciaContext>(options =>

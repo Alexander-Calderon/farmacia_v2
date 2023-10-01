@@ -17,14 +17,14 @@ public class RecetaRepository : GenericRepository<Receta>, IReceta
     public override async Task<IEnumerable<Receta>> GetAllAsync()
     {
         return await _context.Recetas
-        .Include(p => p.DetalleFacturas)
+        .Include(p => p.DetallesFacturas)
         .ToListAsync();
     }
 
     public override async Task<Receta> GetByIdAsync(int id)
     {
         return await _context.Recetas
-        .Include(p => p.DetalleFacturas)
+        .Include(p => p.DetallesFacturas)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

@@ -18,7 +18,7 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
     {
         return await _context.Empleados
         .Include(p => p.Facturas)
-        .Include(p => p.CompraProveedores)
+        .Include(p => p.ComprasProveedores)
         .ToListAsync();
     }
 
@@ -26,7 +26,7 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
     {
         return await _context.Empleados
         .Include(p => p.Facturas)
-        .Include(p => p.CompraProveedores)
+        .Include(p => p.ComprasProveedores)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

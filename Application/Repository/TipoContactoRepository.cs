@@ -17,14 +17,14 @@ public class TipoContactoRepository : GenericRepository<TipoContacto>, ITipoCont
     public override async Task<IEnumerable<TipoContacto>> GetAllAsync()
     {
         return await _context.TipoContactos
-        .Include(p => p.ContactoDetalles)
+        .Include(p => p.Contactos)
         .ToListAsync();
     }
 
     public override async Task<TipoContacto> GetByIdAsync(int id)
     {
         return await _context.TipoContactos
-        .Include(p => p.ContactoDetalles)
+        .Include(p => p.Contactos)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

@@ -14,13 +14,12 @@ namespace Application.UnitOfWork
         private CiudadRepository _cuidades;
         private CompraProveedorRepository _compraProveedores;
         private ContactoRepository _contactos;
-        private ContactoDetalleRepository _contactoDetalles;
         private DepartamentoRepository _departamentos;
         private DetalleFacturaRepository _detalleFacturas;
         private DireccionRepository _direcciones;
         private DoctorRepository _doctores;
         private EmpleadoRepository _empleados;
-        private EspecialidadRepository _especialidades;
+        private EspecializacionRepository _especialidades;
         private EstadoRepository _estados;
         private FacturaRepository _facturas;
         private MarcaRepository _marcas;
@@ -100,18 +99,6 @@ namespace Application.UnitOfWork
             }
         }
 
-        public IContactoDetalle ContadoDetalles
-        {
-            get
-            {
-                if (_contactoDetalles == null)
-                {
-                    _contactoDetalles = new ContactoDetalleRepository(_context);
-                }
-                return _contactoDetalles;
-            }
-        }
-
         public IDepartamento Departamentos
         {
             get
@@ -172,13 +159,13 @@ namespace Application.UnitOfWork
             }
         }
 
-        public IEspecialidad Especialidades
+        public IEspecializacion Especializacion
         {
             get
             {
                 if (_especialidades == null)
                 {
-                    _especialidades = new EspecialidadRepository(_context);
+                    _especialidades = new EspecializacionRepository(_context);
                 }
                 return _especialidades;
             }

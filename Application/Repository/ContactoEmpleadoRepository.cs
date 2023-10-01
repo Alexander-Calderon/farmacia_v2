@@ -1,15 +1,15 @@
-
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+
 namespace Application.Repository;
-public class ContactoDetalleRepository: GenericRepository<ContactoDetalle>, IContactoDetalle
+public class ContactoEmpleadoRepository : GenericRepository<Cargo>, ICargo
 {
     private readonly FarmaciaContext _context;
 
-    public ContactoDetalleRepository(FarmaciaContext context) : base(context)
+    public ContactoEmpleadoRepository(FarmaciaContext context) : base(context)
     {
         _context = context;
     }

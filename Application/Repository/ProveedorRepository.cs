@@ -17,14 +17,14 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
     public override async Task<IEnumerable<Proveedor>> GetAllAsync()
     {
         return await _context.Proveedores
-        .Include(p => p.CompraProveedores)
+        .Include(p => p.ComprasProveedores)
         .ToListAsync();
     }
 
     public override async Task<Proveedor> GetByIdAsync(int id)
     {
         return await _context.Proveedores
-        .Include(p => p.CompraProveedores)
+        .Include(p => p.ComprasProveedores)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 }

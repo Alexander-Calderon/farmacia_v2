@@ -9,13 +9,12 @@ namespace Domain.Interfaces
         ICiudad Cuidades { get; }
         ICompraProveedor CompraProveedores { get; }
         IContacto Contactos { get; }
-        IContactoDetalle ContadoDetalles { get; }
         IDepartamento Departamentos { get;}
         IDetalleFactura DetalleFacturas { get; }
         IDireccion Direcciones { get; }
         IDoctor Doctores { get; }
         IEmpleado Empleados { get; }
-        IEspecialidad Especialidades { get; }
+        IEspecializacion Especializacion { get; }
         IEstado Estados { get; }
         IFactura Facturas { get; }
         IMarca Marcas { get; }
