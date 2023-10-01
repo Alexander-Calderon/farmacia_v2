@@ -8,15 +8,24 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Receta> builder)
             {
-                builder.ToTable("Receta");
+                builder.ToTable("RECETAS");
 
-                builder.Property(p=> p.FechaVencimiento)
-                .HasColumnName("Fecha Vencimiento")
+                builder.Property(rct => rct.FechaVencimiento)
+                .HasColumnName("fecha_vencimiento")
                 .HasColumnType("datetime")
                 .IsRequired();
 
-                builder.HasOne(p => p.Doctor)
-                .WithMany(p => p.Recetas)
-                .HasForeignKey(p => p.IdDoctorFk);
+
+
+
+
+
+                builder.HasOne(rct => rct.Doctor)
+                .WithMany(dtr => dtr.Recetas)
+                .HasForeignKey(rct => rct.IdDoctorFk);
+
+                builder.HasOne(rct => rct.Paciente)
+                .WithMany(pct => pct.Recetas)
+                .HasForeignKey(rct => rct.IdPacienteFk);
             }
         }

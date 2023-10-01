@@ -9,23 +9,25 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Factura> builder)
             {
-                builder.ToTable("Factura");
+                builder.ToTable("FACTURAS");
 
                 builder.Property(p=> p.FechaCreacion)
-                .HasColumnName("Fecha Creacion")
+                .HasColumnName("fecha_creacion")
                 .HasColumnType("datetime")
                 .IsRequired();
 
-                builder.HasOne(p => p.Empleado)
-                .WithMany(p => p.Facturas)
-                .HasForeignKey(p => p.IdEmpleadoFk);
 
-                builder.HasOne(p => p.Paciente)
-                .WithMany(p => p.Facturas)
-                .HasForeignKey(p => p.IdPacienteFk);
 
-                builder.HasOne(p => p.Estado)
-                .WithMany(p => p.Facturas)
-                .HasForeignKey(p => p.IdEstadoFk);
+                builder.HasOne(fct => fct.Empleado)
+                .WithMany(empld => empld.Facturas)
+                .HasForeignKey(fct => fct.IdEmpleadoFk);
+
+                builder.HasOne(fct => fct.Paciente)
+                .WithMany(pcnt => pcnt.Facturas)
+                .HasForeignKey(fct => fct.IdPacienteFk);
+
+                builder.HasOne(fct => fct.Estado)
+                .WithMany(estd => estd.Facturas)
+                .HasForeignKey(fct => fct.IdEstadoFk);
             }
         }

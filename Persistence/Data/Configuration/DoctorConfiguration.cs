@@ -9,30 +9,34 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Doctor> builder)
             {
-                builder.ToTable("Doctor");
+                builder.ToTable("DOCTORES");
 
-                builder.Property(p=> p.Nombre)
-                .HasColumnName("Nombre")
+                builder.Property(dtr=> dtr.Nombre)
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
 
-                builder.Property(p=> p.FechaRegistro)
-                .HasColumnName("Fecha Registro")
+                builder.Property(dtr=> dtr.FechaRegistro)
+                .HasColumnName("fecha_registro")
                 .HasColumnType("datetime")
                 .IsRequired();
 
-                builder.Property(p=> p.Documento)
-                .HasColumnName("Documento")
-                .HasMaxLength(50)
+                builder.Property(dtr => dtr.Documento)
+                .HasColumnName("documento")
+                .HasMaxLength(20)
                 .IsRequired();
 
-                builder.HasOne(p => p.TipoDocumento)
-                .WithMany(p => p.Doctores)
-                .HasForeignKey(p => p.IdTipoDocumentoFk);
 
-                builder.HasOne(p => p.Especialidad)
-                .WithMany(p => p.Doctores)
-                .HasForeignKey(p => p.IdEspecialidadFk);
+
+
+
+                builder.HasOne(dtr => dtr.TipoDocumento)
+                .WithMany(tdcto => tdcto.Doctores)
+                .HasForeignKey(dtr => dtr.IdTipoDocumentoFk);
+
+                builder.HasOne(dtr => dtr.Especializacion)
+                .WithMany(spc => spc.Doctores)
+                .HasForeignKey(dtr => dtr.IdEspecialidadFk);
                 
             }
         }

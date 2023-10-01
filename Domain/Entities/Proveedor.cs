@@ -9,13 +9,22 @@ namespace Domain.Entities;
     {
         public string Nombre {get; set;}
         public string Documento {get; set;}
+
+
+        /* 
+            * FORÁNEAS Y OBJETOS DE LAS FORÁNEAS PARA QUE SE RECONOZCAN COMO FK Y SE CREE LA RELACIÓN.
+        */
         public int IdTipoDocumentoFk {get; set;}
-        public TipoDocumento TipoDocumento {get; set;}
-        public int IdContactoFk {get; set;}
-        public Contacto Contacto {get; set;}
         public int IdDireccionFk {get; set;}
+
+        public TipoDocumento TipoDocumento {get; set;}
         public Direccion Direccion {get; set;}
 
-        public ICollection<CompraProveedor> CompraProveedores {get; set;}
+        /*
+            * COLECCIONES DE DATOS PARA PODER ACCEDER A LA INFORMACIÓN DE LAS TABLAS QUE REFERENCIAN A DIRECCION (TABLAS QUE TIENEN DE FK AL ID DE DIRECCION).
+        */
+        public ICollection<ContactoProveedor> ContactosProveedores {get;set;}
+        public ICollection<CompraProveedor> ComprasProveedores {get; set;}
+
 
     }

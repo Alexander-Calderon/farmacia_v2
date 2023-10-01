@@ -9,5 +9,9 @@ namespace Domain.Entities;
     {
         public string Descripcion {get; set;}
 
+
+        /* 
+            * COLECCIONES DE DATOS PARA PODER ACCEDER A LA INFORMACIÓN DE LAS TABLAS QUE REFERENCIAN A DIRECCION (TABLAS QUE TIENEN DE FK AL ID DE DIRECCION).
+        */
         public ICollection<Medicamento> Medicamentos {get; set;}
     }

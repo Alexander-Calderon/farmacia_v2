@@ -9,10 +9,10 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<TipoContacto> builder)
             {
-                builder.ToTable("TipoContacto");
+                builder.ToTable("TIPOS_CONTACTOS");
 
-                builder.Property(p=> p.Descripcion)
-                .HasColumnName("Descripcion")
+                builder.Property(tc => tc.Nombre)
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
             }

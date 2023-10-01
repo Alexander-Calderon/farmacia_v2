@@ -8,12 +8,20 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Contacto> builder)
             {
-                builder.ToTable("Contacto");
+                builder.ToTable("CONTACTOS");
 
-                builder.Property(p=> p.Descripcion)
-                .HasColumnName("Descripcion")
+                builder.Property(ctt=> ctt.Descripcion)
+                .HasColumnName("descripcion")
                 .HasMaxLength(50)
                 .IsRequired();
+
+
+                
+
+                builder.HasOne(ctt => ctt.TipoContacto)
+                .WithMany(tctt => tctt.Contactos)
+                .HasForeignKey(ctt => ctt.IdTipoContactoFk);
+                
                 
                 
             }

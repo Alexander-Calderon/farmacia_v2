@@ -9,10 +9,10 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Pais> builder)
             {
-                builder.ToTable("Pais");
+                builder.ToTable("PAISES");
 
-                builder.Property(p=> p.Nombre)
-                .HasColumnName("Nombre")
+                builder.Property(ps=> ps.Nombre)
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
 

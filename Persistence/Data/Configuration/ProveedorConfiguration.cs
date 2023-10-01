@@ -9,28 +9,27 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Proveedor> builder)
             {
-                builder.ToTable("Proveedor");
+                builder.ToTable("PROVEEDORES");
 
-                builder.Property(p=> p.Nombre)
-                .HasColumnName("Nombre")
+                builder.Property(prv=> prv.Nombre)
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
 
-                builder.Property(p=> p.Documento)
-                .HasColumnName("Documento")
-                .HasMaxLength(50)
+                builder.Property(prv=> prv.Documento)
+                .HasColumnName("documento")
+                .HasMaxLength(20)
                 .IsRequired();
 
-                builder.HasOne(p => p.TipoDocumento)
-                .WithMany(p => p.Proveedores)
-                .HasForeignKey(p => p.IdTipoDocumentoFk);
 
-                builder.HasOne(p => p.Contacto)
-                .WithMany(p => p.Proveedores)
-                .HasForeignKey(p => p.IdContactoFk);
 
-                builder.HasOne(p => p.Direccion)
-                .WithMany(p => p.Proveedores)
-                .HasForeignKey(p => p.IdDireccionFk);
+
+                builder.HasOne(prv => prv.TipoDocumento)
+                .WithMany(tdcto => tdcto.Proveedores)
+                .HasForeignKey(prv => prv.IdTipoDocumentoFk);
+
+                builder.HasOne(prv => prv.Direccion)
+                .WithMany(dccn => dccn.Proveedores)
+                .HasForeignKey(prv => prv.IdDireccionFk);
             }
         }

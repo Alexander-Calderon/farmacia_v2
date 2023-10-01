@@ -9,16 +9,19 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Direccion> builder)
             {
-                builder.ToTable("Direccion");
+                builder.ToTable("DIRECCIONES");
 
-                builder.Property(p=> p.Descripcion)
-                .HasColumnName("Descripcion")
+                builder.Property(dccn=> dccn.Descripcion)
+                .HasColumnName("descripcion")
                 .HasMaxLength(50)
                 .IsRequired();
 
-                builder.HasOne(p => p.Ciudad)
-                .WithMany(p => p.Direcciones)
-                .HasForeignKey(p => p.IdCiudadFk); 
-    
+
+
+
+                builder.HasOne(dccn => dccn.Ciudad)
+                .WithMany(cdd => cdd.Direcciones)
+                .HasForeignKey(dccn => dccn.IdCiudadFk); 
+
             }
         }

@@ -9,25 +9,28 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<Paciente> builder)
             {
-                builder.ToTable("Paciente");
+                builder.ToTable("PACIENTES");
 
-                builder.Property(p=> p.Nombre)
-                .HasColumnName("Nombre")
+                builder.Property(pct=> pct.Nombre)
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
 
-                builder.Property(p=> p.FechaRegistro)
-                .HasColumnName("Fecha Registro")
+                builder.Property(pct=> pct.FechaRegistro)
+                .HasColumnName("fecha_registro")
                 .HasColumnType("datetime")
                 .IsRequired();
 
-                builder.Property(p=> p.Documento)
-                .HasColumnName("Documento")
-                .HasMaxLength(50)
+                builder.Property(pct=> pct.Documento)
+                .HasColumnName("documento")
+                .HasMaxLength(20)
                 .IsRequired();
 
-                builder.HasOne(p => p.TipoDocumento)
-                .WithMany(p => p.Pacientes)
-                .HasForeignKey(p => p.IdTipoDocumentoFk);
+
+
+
+                builder.HasOne(pct => pct.TipoDocumento)
+                .WithMany(tdcto => tdcto.Pacientes)
+                .HasForeignKey(pct => pct.IdTipoDocumentoFk);
             }
         }

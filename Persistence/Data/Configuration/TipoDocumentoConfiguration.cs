@@ -8,10 +8,10 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<TipoDocumento> builder)
             {
-                builder.ToTable("TipoDocumento");
+                builder.ToTable("TIPOS_DOCUMENTOS");
 
                 builder.Property(p=> p.Nombre)
-                .HasColumnName("Nombre")
+                .HasColumnName("nombre")
                 .HasMaxLength(50)
                 .IsRequired();
             }

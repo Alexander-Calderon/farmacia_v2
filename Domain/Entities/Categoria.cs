@@ -9,6 +9,13 @@ namespace Domain.Entities;
     {
         public string Descripcion {get; set;}
 
+
+
+
+
+        /* 
+            * COLECCIONES DE DATOS PARA PODER ACCEDER A LA INFORMACIÓN DE LAS TABLAS QUE REFERENCIAN A CATEGORIA (TABLAS QUE TIENEN DE FK AL ID DE CATEGORIA).            
+        */
         public ICollection<Medicamento> Medicamentos {get; set;}
         
     }

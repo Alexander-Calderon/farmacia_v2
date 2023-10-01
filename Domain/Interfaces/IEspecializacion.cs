@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Domain.Interfaces
-{
-    public interface IContactoDetalle:IGenericRepository<ContactoDetalle>
+namespace Domain.Interfaces;
+
+    public interface IEspecializacion:IGenericRepository<Especializacion>
     {
         
     }
-}

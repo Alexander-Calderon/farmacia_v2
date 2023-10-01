@@ -10,21 +10,32 @@ namespace Domain.Entities;
         public DateTime FechaRegistro {get; set;}
         public string Documento {get; set;}
 
+
+        /* 
+            * FORÁNEAS Y OBJETOS DE LAS FORÁNEAS PARA QUE SE RECONOZCAN COMO FK Y SE CREE LA RELACIÓN.
+        */
         public int IdCargoFk {get; set;}
-        public Cargo Cargo {get; set;}
         public int IdTipoDocumentoFk {get; set;}
-        public TipoDocumento TipoDocumento {get; set;}
         public int IdDireccionFk {get; set;}
-        public Direccion Direccion {get; set;}
-        public int IdContactoFk {get; set;}
-        public Contacto Contacto {get; set;}
-
         public int IdUserFk {get; set;}
-        public User User {get; set;}
+        
 
+        // * Propiedades de navegabilidad
+        public Cargo Cargo {get; set;}
+        public TipoDocumento TipoDocumento {get; set;}
+        public Direccion Direccion {get; set;}
+
+        // ! Se debe establecer tanto aquí como en la entidad user para que la navegabilidad sea bidireccional
+        // ! ya que por defecto el comportamiento es como el de uno a muchos y la navegabilidad ahí por defecto es unidireccional de user a empleado.
+        public User User {get; set;} 
+
+
+        /* 
+            * COLECCIONES DE DATOS PARA PODER ACCEDER A LA INFORMACIÓN DE LAS TABLAS QUE REFERENCIAN A EMPLEADO (TABLAS QUE TIENEN DE FK AL ID DE EMPLEADO).
+        */ 
+        public ICollection<ContactoEmpleado> ContactosEmpleados {get;set;}
         public ICollection<Factura> Facturas {get; set;}
-
-        public ICollection<CompraProveedor> CompraProveedores {get; set;}
+        public ICollection<CompraProveedor> ComprasProveedores {get; set;}
 
 
     }
