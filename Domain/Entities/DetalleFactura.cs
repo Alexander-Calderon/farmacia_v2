@@ -8,7 +8,7 @@ namespace Domain.Entities;
     public class DetalleFactura : BaseEntity
     {
         public decimal PrecioUnitario {get; set;}
-        public decimal Cantidad {get; set;}
+        public int Cantidad {get; set;}
 
         /* 
             * FORÁNEAS Y OBJETOS DE LAS FORÁNEAS PARA QUE SE RECONOZCAN COMO FK Y SE CREE LA RELACIÓN.
