@@ -8,5 +8,6 @@ namespace Domain.Interfaces;
 
     public interface IEmpleado:IGenericRepository<Empleado>
     {
-        
+        Task<IEnumerable<Empleado>> ObtenerEmpleadosSinFacturasAsync();
+        Task<IEnumerable<object>> ObtenerTotalVentas5PorEmpleadoAsync();
     }

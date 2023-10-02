@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIFarmacia.Controllers;
 
-    public class MedicamentoController : ApiBaseController
-    {
+public class MedicamentoController : ApiBaseController
+{
     private readonly IUnitOfWork unitofwork;
     private readonly IMapper mapper;
 
@@ -119,7 +119,17 @@ namespace APIFarmacia.Controllers;
     public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
     {
         var medicamento = await unitofwork.Medicamentos.ObtenerMedicamentosNoVendidosAsync();
-        return mapper.Map<IEnumerable<object>> (medicamento);
+        return mapper.Map<IEnumerable<object>>(medicamento);
     }
 
+    [HttpGet("totalmedicamentospormes")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> ObtenerTotalMedicamentosVendidosPorMesEn2023Async()
+    {
+        var totalMedicamentosPorMes = await unitofwork.Medicamentos.ObtenerTotalMedicamentosVendidosPorMesEn2023Async();
+        return Ok(totalMedicamentosPorMes);
     }
+
+
+}

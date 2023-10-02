@@ -42,7 +42,7 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
             {
                 Id = m.Id,
                 Nombre = m.Nombre,
-                // Agrega aquí otras propiedades que quieras seleccionar de Medicamentos
+
             }).ToListAsync();
 
         return medicamentosNoVendidos;
@@ -58,7 +58,7 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         ).SumAsync();
 
         return new List<Object> { new { Total = result } };
-        
+
     }
 
     public async Task<IEnumerable<Object>> GetInfoMedicamentoMenosVendido()
@@ -78,5 +78,29 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
 
         return await Task.FromResult(new List<Object> { result });
     }
+
+    public async Task<IEnumerable<object>> ObtenerTotalMedicamentosVendidosPorMesEn2023Async()
+    {
+        var totalMedicamentosPorMes = await (
+            from f in _context.Facturas
+            join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+            join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+            where f.FechaCreacion.Year == 2023
+            group new { f.FechaCreacion, m.Nombre, df.Cantidad } by new { f.FechaCreacion.Year, f.FechaCreacion.Month, m.Nombre } into g
+            orderby g.Key.Year, g.Key.Month
+            select new
+            {
+                mes = g.Key.Year + "-" + g.Key.Month.ToString("00"),
+                medicamento = g.Key.Nombre,
+                total = g.Sum(x => x.Cantidad)
+            }
+        ).ToListAsync();
+
+        return totalMedicamentosPorMes;
+    }
+
+    
+
+
 
 }

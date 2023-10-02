@@ -8,5 +8,6 @@ namespace Domain.Interfaces;
         Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync();
         Task<IEnumerable<Object>> GetInfoMedicamentoVendidos();
         Task<IEnumerable<Object>> GetInfoMedicamentoMenosVendido();
-
+        Task<IEnumerable<object>> ObtenerTotalMedicamentosVendidosPorMesEn2023Async();
+        
     }
