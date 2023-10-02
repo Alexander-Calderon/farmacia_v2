@@ -30,19 +30,23 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
     public async Task<IEnumerable<Object>> GetInfoMedicamentoPorProveedor()
     {
-        return await
-        (
-        from cp in _context.CompraProveedores
-        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
-        group cp by new { p.Nombre, cp.IdProveedorFk } into grouped
-        select new
-        {
-            NombreProveedor = grouped.Key.Nombre,
-            IdProveedorFK = grouped.Key.IdProveedorFk,
-            Cantidad = grouped.Count()
-        }
-        ).ToListAsync();
+        var query = from p in _context.Proveedores
+                    join c in _context.CompraProveedores
+                    on p.Id equals c.IdProveedorFk into purchases
+                    from purchase in purchases.DefaultIfEmpty()
+                    group purchase by new { p.Id, p.Nombre } into grouped
+                    orderby grouped.Count(g => g != null) descending
+                    select new
+                    {
+                        Proveedor = grouped.Key.Nombre,
+                        NumeroDeMedicamentos = grouped.Count(g => g != null)
+                    };
+
+        var result = await query.ToListAsync(); 
+
+        return result;
     }
+
 
     public async Task<IEnumerable<Object>> GetInfoVentaUltimoAnoProveedor()
     {
