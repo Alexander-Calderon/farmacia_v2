@@ -141,9 +141,33 @@ public class ProveedorController : ApiBaseController
         return Ok(proveedores);
     }
     [HttpGet("consulta35")]
-public async Task<IActionResult> ProveedoresConCincoMedicamentosDiferentesEn2023()
+    public async Task<IActionResult> ProveedoresConCincoMedicamentosDiferentesEn2023()
+    {
+        var proveedores = await unitofwork.Proveedores.ProveedoresConCincoMedicamentosDiferentesEn2023();
+
+        if (proveedores == null || !proveedores.Any())
+        {
+            return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+        }
+
+        return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
+    }
+    [HttpGet("consulta2")]
+    public async Task<IActionResult> ProveedoresConInformacionDeContactoAsync()
+    {
+        var proveedores = await unitofwork.Proveedores.ProveedoresConInformacionDeContactoAsync();
+
+        if (proveedores == null || !proveedores.Any())
+        {
+            return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+        }
+
+        return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
+    }
+    [HttpGet("consulta3/{proveedorNombre}")]
+public async Task<IActionResult> MedicamentosCompradosPorProveedorAsync(string proveedorNombre)
 {
-    var proveedores = await unitofwork.Proveedores.ProveedoresConCincoMedicamentosDiferentesEn2023();
+    var proveedores = await unitofwork.Proveedores.MedicamentosCompradosPorProveedorAsync(proveedorNombre);
 
     if (proveedores == null || !proveedores.Any())
     {
@@ -152,6 +176,8 @@ public async Task<IActionResult> ProveedoresConCincoMedicamentosDiferentesEn2023
 
     return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
 }
+
+
 
 
 
