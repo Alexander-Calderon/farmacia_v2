@@ -50,6 +50,7 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
     public async Task<IEnumerable<Object>> GetInfoVentaUltimoAnoProveedor()
     {
+
         var proveedoresConComprasUltimoAno = (
             from cp in _context.CompraProveedores
             where cp.FechaCompra >= DateTime.Now.AddYears(-1)
