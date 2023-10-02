@@ -62,7 +62,6 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
             }
         ).Distinct().ToListAsync();
     }
-<<<<<<< HEAD
 
     public async Task<IEnumerable<object>> ObtenerProveedorConMasMedicamentosSuministradosAsync()
     {
@@ -116,7 +115,6 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
 
 
-=======
     public async Task<IEnumerable<Object>> GetInfoGananciaPorProveedor()
     {
         var result = await (
@@ -134,7 +132,30 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
         return result;
     }
+    public async Task<IEnumerable<object>> ProveedoresConCincoMedicamentosDiferentesEn2023()
+{
+    var inicioAño = new DateTime(2023, 1, 1);
+    var finAño = new DateTime(2023, 12, 31);
+
+    var resultados = await (
+        from cp in _context.CompraProveedores
+        join m in _context.Medicamentos on cp.IdMedicamentoFk equals m.Id
+        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+        where cp.FechaCompra >= inicioAño && cp.FechaCompra <= finAño
+        group m by new { p.Id, p.Nombre } into grupoProveedores
+        where grupoProveedores.Count() >= 5
+        select new
+        {
+            ProveedorId = grupoProveedores.Key.Id,
+            NombreProveedor = grupoProveedores.Key.Nombre,
+            TotalMedicamentos = grupoProveedores.Count(),
+            Medicamentos = string.Join(", ", grupoProveedores.Select(med => med.Nombre).OrderBy(n => n))
+        }
+    ).ToListAsync();
+
+    return resultados;
+}
 
 
->>>>>>> a9760254e668227d181f52a65af81084078ccc70
+
 }

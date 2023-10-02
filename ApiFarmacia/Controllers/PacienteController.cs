@@ -35,7 +35,7 @@ public class PacienteController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-    public async Task<ActionResult<PacienteDto>> Get(int id)
+    public async Task<ActionResult<PacienteDto>> Get11(int id)
     {
         var Paciente = await unitofwork.Pacientes.GetByIdAsync(id);
         if (Paciente == null)
@@ -54,6 +54,16 @@ public class PacienteController : ApiBaseController
             return NotFound(); // Devuelve 404 si no se encuentra el recurso.
         }
         return Ok(this.mapper.Map<IEnumerable<Object>>(Paciente)); // Devuelve la colección si se encontró.
+    }
+    [HttpGet("consulta33")]
+    public async Task<object> TotalGastadoPorPacienteEn2023Async()
+    {
+        var Paciente = await unitofwork.Pacientes.TotalGastadoPorPacienteEn2023Async();
+        if (Paciente == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<Object>(Paciente)); // Devuelve la colección si se encontró.
     }
 
     [HttpPost]

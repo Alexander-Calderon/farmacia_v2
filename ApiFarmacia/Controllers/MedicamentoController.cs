@@ -86,6 +86,54 @@ public class MedicamentoController : ApiBaseController
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
 
+    [HttpGet("consulta31")]
+    public async Task<IActionResult> MedicamentosVendidosPorMesEn2023Async()
+    {
+        var Medicamento = await unitofwork.Medicamentos.MedicamentosVendidosPorMesEn2023Async();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+    [HttpGet("consulta34/{year}")]
+    public async Task<IActionResult> MedicamentosNoVendidosEn2023(int year)
+    {
+        var medicamentos = await unitofwork.Medicamentos.MedicamentosNoVendidosEn2023(year);
+
+        if (medicamentos == null || !medicamentos.Any())
+        {
+            return NotFound(); // Devuelve 404 si no se encontraron medicamentos.
+        }
+
+        return Ok(this.mapper.Map<IEnumerable<object>>(medicamentos));
+    }
+    [HttpGet("consulta36")]
+    public async Task<IActionResult> TotalMedicamentosVendidosPrimerTrimestre2023()
+    {
+        var totalMedicamentos = await unitofwork.Medicamentos.TotalMedicamentosVendidosPrimerTrimestre2023();
+
+        if (totalMedicamentos == 0)
+        {
+            return NotFound(); // Devuelve 404 si el total es cero.
+        }
+
+        return Ok(totalMedicamentos); // Devuelve el total como un valor entero.
+    }
+    [HttpGet("consulta38")]
+public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
+{
+    var totalMedicamentos = await unitofwork.Medicamentos.MedicamentosConPrecioYStockAsync();
+
+    if (totalMedicamentos == null || !totalMedicamentos.Any())
+    {
+        return NotFound(); // Devuelve 404 si la colección está vacía.
+    }
+
+    return Ok(totalMedicamentos); // Devuelve la colección si no está vacía.
+}
+
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

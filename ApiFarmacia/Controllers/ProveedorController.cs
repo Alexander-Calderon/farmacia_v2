@@ -66,24 +66,6 @@ public class ProveedorController : ApiBaseController
         return Ok(this.mapper.Map<IEnumerable<Object>>(Proveedor)); // Devuelve la colección si se encontró.
     }
 
-<<<<<<< HEAD
-=======
-            [HttpGet("GetInfoGananciaPorProveedor")]
-            public async Task<IActionResult> GetInfoGananciaPorProveedor()
-            {
-                var Proveedor = await unitofwork.Proveedores.GetInfoGananciaPorProveedor();
-                if (Proveedor == null)
-                {
-                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
-                }
-                return Ok(this.mapper.Map<IEnumerable<Object>>(Proveedor)); // Devuelve la colección si se encontró.
-            }
-
-    
-            [HttpPost]
-            [ProducesResponseType(StatusCodes.Status201Created)]
-            [ProducesResponseType(StatusCodes.Status400BadRequest)]
->>>>>>> a9760254e668227d181f52a65af81084078ccc70
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -158,6 +140,19 @@ public class ProveedorController : ApiBaseController
         var proveedores = await unitofwork.Proveedores.ObtenerProveedoresConStockBajoAsync(stockMinimo);
         return Ok(proveedores);
     }
+    [HttpGet("consulta35")]
+public async Task<IActionResult> ProveedoresConCincoMedicamentosDiferentesEn2023()
+{
+    var proveedores = await unitofwork.Proveedores.ProveedoresConCincoMedicamentosDiferentesEn2023();
+
+    if (proveedores == null || !proveedores.Any())
+    {
+        return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+    }
+
+    return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
+}
+
 
 
 

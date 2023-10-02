@@ -8,12 +8,11 @@ namespace Domain.Interfaces;
 
     public interface IEmpleado:IGenericRepository<Empleado>
     {
-<<<<<<< HEAD
         Task<IEnumerable<Empleado>> ObtenerEmpleadosSinFacturasAsync();
         Task<IEnumerable<object>> ObtenerTotalVentas5PorEmpleadoAsync();
-=======
         Task<IEnumerable<Object>> GetInfoCantidadVentas();
         Task<IEnumerable<Object>> GetEmpleadocon5Ventas();
+        Task<object> EmpleadoMaxMedicamentosDistintos(int year);
+        Task<IEnumerable<object>> EmpleadosSinVentasEnAbril2023Async();
 
->>>>>>> a9760254e668227d181f52a65af81084078ccc70
     }
