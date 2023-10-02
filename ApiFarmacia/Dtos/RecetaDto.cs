@@ -8,7 +8,12 @@ namespace ApiFarmacia.Dtos;
 
     public class RecetaDto:BaseEntity
     {
+        public string Descripcion {get;set;}
+        public DateTime FechaEmision {get; set;}
         public DateTime FechaVencimiento {get; set;}
 
         public int IdDoctorFk {get; set;}
     }
+
+
+

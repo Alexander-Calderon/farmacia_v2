@@ -9,7 +9,7 @@ namespace Persistence.Data.Configuration;
         {
             public void Configure(EntityTypeBuilder<DetalleFactura> builder)
             {
-                builder.ToTable("DETALLE_FACTURA");
+                builder.ToTable("DETALLES_FACTURAS");
     
                 builder.Property(dfct => dfct.PrecioUnitario)
                 .HasColumnName("precio_unitario")

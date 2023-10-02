@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Domain.Entities;
 
 namespace Domain.Interfaces;
 
     public interface IPaciente:IGenericRepository<Paciente>
     {
-        Task<object> ObtenerPacienteQueMasGastoAsync();
-        Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento();
+        Task<IEnumerable<object>> GetInfoPacientesCompraMedicamento();
+        Task<IEnumerable<object>> ObtenerPacienteConMayorGastoAsync();
+        Task<IEnumerable<object>> ObtenerPacientesConParacetamolAsync();
+        Task<IEnumerable<Paciente>> ObtenerPacientesSinComprasEn2023Async();
+        Task<object> TotalGastadoPorPacienteEn2023Async();
     }

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIFarmacia.Controllers;
 
-    public class MedicamentoController : ApiBaseController
-    {
+public class MedicamentoController : ApiBaseController
+{
     private readonly IUnitOfWork unitofwork;
     private readonly IMapper mapper;
 
@@ -53,6 +53,15 @@ namespace APIFarmacia.Controllers;
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
 
+    // public async Task<ActionResult<MedicamentoDto>> GetInfoMedicamentoPorProveedor()
+    // {
+    //     var medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoPorProveedor();
+    //     if (medicamento == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     return this.mapper.Map<MedicamentoDto>(medicamento);
+    // }
     [HttpGet("GetInfoMedicamentoMenosVendido")]
     public async Task<IActionResult> GetInfoMedicamentoMenosVendido()
     {
@@ -85,6 +94,54 @@ namespace APIFarmacia.Controllers;
         }
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
+
+    [HttpGet("consulta31")]
+    public async Task<IActionResult> MedicamentosVendidosPorMesEn2023Async()
+    {
+        var Medicamento = await unitofwork.Medicamentos.MedicamentosVendidosPorMesEn2023Async();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+    [HttpGet("consulta34/{year}")]
+    public async Task<IActionResult> MedicamentosNoVendidosEn2023(int year)
+    {
+        var medicamentos = await unitofwork.Medicamentos.MedicamentosNoVendidosEn2023(year);
+
+        if (medicamentos == null || !medicamentos.Any())
+        {
+            return NotFound(); // Devuelve 404 si no se encontraron medicamentos.
+        }
+
+        return Ok(this.mapper.Map<IEnumerable<object>>(medicamentos));
+    }
+    [HttpGet("consulta36")]
+    public async Task<IActionResult> TotalMedicamentosVendidosPrimerTrimestre2023()
+    {
+        var totalMedicamentos = await unitofwork.Medicamentos.TotalMedicamentosVendidosPrimerTrimestre2023();
+
+        if (totalMedicamentos == 0)
+        {
+            return NotFound(); // Devuelve 404 si el total es cero.
+        }
+
+        return Ok(totalMedicamentos); // Devuelve el total como un valor entero.
+    }
+    [HttpGet("consulta38")]
+public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
+{
+    var totalMedicamentos = await unitofwork.Medicamentos.MedicamentosConPrecioYStockAsync();
+
+    if (totalMedicamentos == null || !totalMedicamentos.Any())
+    {
+        return NotFound(); // Devuelve 404 si la colección está vacía.
+    }
+
+    return Ok(totalMedicamentos); // Devuelve la colección si no está vacía.
+}
+
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -136,12 +193,48 @@ namespace APIFarmacia.Controllers;
         return NoContent();
     }
 
+
+    // Enpoints Requeridos:
+
+    // * 1 Obtener todos los medicamentos con menos de 50 unidades en stock.
+    [HttpGet("StockMenorA50")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetStockMenorA50()
+    {
+        var medicamentos = await unitofwork.Medicamentos.GetCantidadMenorA50(); //Redirecciono al método que devuelve lo solicitado en este EndPoint.
+        var medicamentoDtos = mapper.Map<List<MedicamentoDto>>(medicamentos); // luego los datos completos del método les aplico un filtro usando un Dto para elegir que datos voy a mostrar.
+        return Ok(medicamentoDtos); 
+    }
+
+
+        
+
+
+
+
+
+
+
+
+
+
     [HttpGet("MedicamentosNoVendidos")]
 
     public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
     {
         var medicamento = await unitofwork.Medicamentos.ObtenerMedicamentosNoVendidosAsync();
-        return mapper.Map<IEnumerable<object>> (medicamento);
+        return mapper.Map<IEnumerable<object>>(medicamento);
     }
 
+    [HttpGet("totalmedicamentospormes")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> ObtenerTotalMedicamentosVendidosPorMesEn2023Async()
+    {
+        var totalMedicamentosPorMes = await unitofwork.Medicamentos.ObtenerTotalMedicamentosVendidosPorMesEn2023Async();
+        return Ok(totalMedicamentosPorMes);
     }
+
+
+}

@@ -8,5 +8,5 @@ namespace Domain.Interfaces;
 
     public interface IReceta:IGenericRepository<Receta>
     {
-        
+        Task<IEnumerable<Receta>> ObtenerRecetasEmitidasDespuesDeFechaAsync();
     }

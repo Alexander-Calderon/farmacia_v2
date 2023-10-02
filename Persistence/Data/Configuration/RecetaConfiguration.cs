@@ -10,10 +10,21 @@ namespace Persistence.Data.Configuration;
             {
                 builder.ToTable("RECETAS");
 
+                builder.Property(rct => rct.Descripcion)
+                .HasColumnName("descripcion")
+                .HasMaxLength(75)
+                .IsRequired();
+
+                builder.Property(rct => rct.FechaEmision)
+                .HasColumnName("fecha_emision")
+                .HasColumnType("datetime")
+                .IsRequired();
+
                 builder.Property(rct => rct.FechaVencimiento)
                 .HasColumnName("fecha_vencimiento")
                 .HasColumnType("datetime")
                 .IsRequired();
+
 
 
 

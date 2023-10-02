@@ -26,7 +26,7 @@ namespace APIFarmacia.Controllers;
         var receta = await unitofwork.Recetas.GetAllAsync();
         return mapper.Map<List<RecetaDto>>(receta);
     }
-
+    
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -91,4 +91,21 @@ namespace APIFarmacia.Controllers;
         await unitofwork.SaveAsync();
         return NoContent();
     }
+
+
+
+    [HttpGet("consulta4")]
+    public async Task<IActionResult>  ObtenerRecetasEmitidasDespuesDeFechaAsync()
+    {
+        var receta = await unitofwork.Recetas.ObtenerRecetasEmitidasDespuesDeFechaAsync();
+
+        if (receta == null || !receta.Any())
+        {
+            return NotFound(); // Devuelve 404 si la colección está vacía.
+        }
+
+        return Ok(receta); // Devuelve la colección si no está vacía.
     }
+
+    
+}
