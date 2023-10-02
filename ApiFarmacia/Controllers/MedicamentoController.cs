@@ -91,4 +91,13 @@ namespace APIFarmacia.Controllers;
         await unitofwork.SaveAsync();
         return NoContent();
     }
+
+    [HttpGet("MedicamentosNoVendidos")]
+
+    public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
+    {
+        var medicamento = await unitofwork.Medicamentos.ObtenerMedicamentosNoVendidosAsync();
+        return mapper.Map<IEnumerable<object>> (medicamento);
+    }
+
     }
