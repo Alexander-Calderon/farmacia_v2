@@ -111,20 +111,20 @@ public class EmpleadoController : ApiBaseController
         return mapper.Map<List<EmpleadoDto>>(Empleado);
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    // [HttpGet("{id}")]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-    public async Task<ActionResult<EmpleadoDto>> Get111(int id)
-    {
-        var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
-        if (Empleado == null)
-        {
-            return NotFound();
-        }
-        return this.mapper.Map<EmpleadoDto>(Empleado);
-    }
+    // public async Task<ActionResult<EmpleadoDto>> Get111(int id)
+    // {
+    //     var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
+    //     if (Empleado == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     return this.mapper.Map<EmpleadoDto>(Empleado);
+    // }
 
     [HttpGet("GetInfoCantidadVentas")]
     public async Task<IActionResult> GetInfoCantidadVentas()

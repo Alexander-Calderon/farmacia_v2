@@ -14,3 +14,6 @@ namespace ApiFarmacia.Dtos;
 
         public int IdDoctorFk {get; set;}
     }
+
+
+
