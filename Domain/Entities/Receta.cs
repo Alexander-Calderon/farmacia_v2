@@ -7,6 +7,7 @@ namespace Domain.Entities;
 
     public class Receta:BaseEntity
     {
+        public DateTime FechaEmision {get; set;}
         public DateTime FechaVencimiento {get; set;}
 
 
