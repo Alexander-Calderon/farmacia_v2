@@ -12,4 +12,5 @@ namespace Domain.Interfaces;
         Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento);
         Task<IEnumerable<object>> ObtenerPacientesConParacetamolAsync();
         Task<IEnumerable<Paciente>> ObtenerPacientesSinComprasEn2023Async();
+        Task<object> TotalGastadoPorPacienteEn2023Async();
     }

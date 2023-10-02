@@ -14,6 +14,7 @@ namespace Domain.Interfaces;
         Task<int> ObtenerTotalProveedoressuminitroAsync();
         Task<IEnumerable<object>> ObtenerProveedoresConStockBajoAsync(int stockMinimo);
         Task<IEnumerable<Object>> GetInfoGananciaPorProveedor();
+        Task<IEnumerable<object>> ProveedoresConCincoMedicamentosDiferentesEn2023();
 
 
     }

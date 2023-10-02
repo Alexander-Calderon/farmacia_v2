@@ -86,6 +86,29 @@ public async Task<IEnumerable<Paciente>> ObtenerPacientesSinComprasEn2023Async()
 
     return pacientesSinComprasEn2023;
 }
+public async Task<object> TotalGastadoPorPacienteEn2023Async()
+{
+    var inicioAño = new DateOnly(2023, 1, 1);
+    var finAño = new DateOnly(2023, 12, 31);
+
+    var resultados = await (
+        from p in _context.Pacientes
+        join f in _context.Facturas on p.Id equals f.IdPacienteFk into pacienteFacturas
+        from pf in pacienteFacturas.DefaultIfEmpty()
+        join df in _context.DetalleFacturas on pf.Id equals df.IdFacturaFk into facturaDetalles
+        from dfd in facturaDetalles.DefaultIfEmpty()
+        where pf.FechaCreacion.Year == 2023
+        group new { p, dfd } by new { p.Id, p.Nombre } into grupoGastos
+        select new
+        {
+            IdPaciente = grupoGastos.Key.Id,
+            NombrePaciente = grupoGastos.Key.Nombre,
+            TotalGastado = grupoGastos.Sum(x => x.dfd.Cantidad * x.dfd.PrecioUnitario)
+        }
+    ).ToListAsync();
+
+    return resultados;
+}
 
 
 }

@@ -111,5 +111,58 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
 
         return empleadosConMasDe5Ventas;
     }
+<<<<<<< HEAD
+=======
+    public async Task<object> EmpleadoMaxMedicamentosDistintos(int year)
+    {
+        var inicioAño = new DateOnly(year, 1, 1);
+        var finAño = new DateOnly(year, 12, 31);
+
+        var resultados = await (
+            from e in _context.Empleados
+            join f in _context.Facturas on e.Id equals f.IdEmpleadoFk
+            join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+            join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+            where f.FechaCreacion.Year == 2023
+            group m by new { e.Id, e.Nombre } into grupoVentas
+            orderby grupoVentas.Select(x => x.Id).Count() descending
+            select new
+            {
+                IdEmpleado = grupoVentas.Key.Id,
+                Empleado = grupoVentas.Key.Nombre,
+                TotalMedicamentosDistintos = grupoVentas.Select(x => x.Id).Count(),
+                MedicamentosVendidos = string.Join(", ", grupoVentas.Select(x => x.Nombre).Distinct())
+            }
+        ).FirstOrDefaultAsync();
+
+        return resultados;
+    }
+    public async Task<IEnumerable<object>> EmpleadosSinVentasEnAbril2023Async()
+    {
+        var inicioAbril = new DateOnly(2023, 4, 1);  // Fecha de inicio de abril
+        var finAbril = new DateOnly(2023, 4, 30);    // Fecha de fin de abril
+
+        // Convierte DateOnly a DateTime con horas específicas
+        var inicioAbrilDateTime = new DateTime(inicioAbril.Year, inicioAbril.Month, inicioAbril.Day, 0, 0, 0);  // Hora de inicio del día
+        var finAbrilDateTime = new DateTime(finAbril.Year, finAbril.Month, finAbril.Day, 23, 59, 59);    // Hora de finalización del día
+
+        var empleadosSinVentasAbril = await (
+            from e in _context.Empleados
+            join f in _context.Facturas on e.Id equals f.IdEmpleadoFk into ventas
+            from venta in ventas.DefaultIfEmpty()
+            where venta == null || (venta.FechaCreacion < inicioAbrilDateTime || venta.FechaCreacion > finAbrilDateTime)
+            group e by new { e.Id, e.Nombre } into grupoEmpleados
+            select new
+            {
+                IdEmpleado = grupoEmpleados.Key.Id,
+                NombreEmpleado = grupoEmpleados.Key.Nombre,
+                FechasVentas = grupoEmpleados.Select(e => e.FechaRegistro).Distinct().OrderBy(fecha => fecha).ToList()
+            }
+        ).ToListAsync();
+
+        return empleadosSinVentasAbril;
+
+    }
+>>>>>>> 1e202cf16d0ab88b20b71006383e31a696daaead
 
 }
