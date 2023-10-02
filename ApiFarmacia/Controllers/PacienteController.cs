@@ -43,6 +43,17 @@ namespace ApiFarmacia.Controllers;
                 }
                 return this.mapper.Map<PacienteDto>(Paciente);
             }
+
+            [HttpGet("GetInfoPacientesCompraMedicamento/{id}")]
+            public async Task<IActionResult> GetInfoPacientesCompraMedicamento(int IdMedicamento)
+            {
+                var Paciente = await unitofwork.Pacientes.GetInfoPacientesCompraMedicamento(IdMedicamento);
+                if (Paciente == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Paciente)); // Devuelve la colección si se encontró.
+            }
     
             [HttpPost]
             [ProducesResponseType(StatusCodes.Status201Created)]

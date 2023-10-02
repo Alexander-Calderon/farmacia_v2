@@ -42,10 +42,23 @@ namespace ApiFarmacia.Controllers;
                 }
                 return this.mapper.Map<ProveedorDto>(Proveedor);
             }
+
+            [HttpGet("GetInfoMedicamentoPorProveedor")]
+            public async Task<IActionResult> GetInfoMedicamentoPorProveedor()
+            {
+                var Proveedor = await unitofwork.Proveedores.GetInfoMedicamentoPorProveedor();
+                if (Proveedor == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Proveedor)); // Devuelve la colección si se encontró.
+            }
+
     
             [HttpPost]
             [ProducesResponseType(StatusCodes.Status201Created)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
     
             public async Task<ActionResult<Proveedor>> Post(ProveedorDto proveedorDto)
             {

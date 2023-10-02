@@ -27,4 +27,20 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
         .Include(p => p.ComprasProveedores)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+    public async Task<IEnumerable<Object>> GetInfoMedicamentoPorProveedor()
+    {
+        return await 
+        (
+        from cp in _context.CompraProveedores
+        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+        group cp by new { p.Nombre, cp.IdProveedorFk } into grouped
+            select new
+            {
+                NombreProveedor = grouped.Key.Nombre,
+                IdProveedorFK = grouped.Key.IdProveedorFk,
+                Cantidad = grouped.Count()
+            }
+        ).ToListAsync();
+    }
 }
