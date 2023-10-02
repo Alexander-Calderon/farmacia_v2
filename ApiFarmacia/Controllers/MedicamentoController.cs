@@ -53,6 +53,15 @@ public class MedicamentoController : ApiBaseController
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
 
+    // public async Task<ActionResult<MedicamentoDto>> GetInfoMedicamentoPorProveedor()
+    // {
+    //     var medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoPorProveedor();
+    //     if (medicamento == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     return this.mapper.Map<MedicamentoDto>(medicamento);
+    // }
     [HttpGet("GetInfoMedicamentoMenosVendido")]
     public async Task<IActionResult> GetInfoMedicamentoMenosVendido()
     {
@@ -183,6 +192,32 @@ public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
         await unitofwork.SaveAsync();
         return NoContent();
     }
+
+
+    // Enpoints Requeridos:
+
+    // * 1 Obtener todos los medicamentos con menos de 50 unidades en stock.
+    [HttpGet("StockMenorA50")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetStockMenorA50()
+    {
+        var medicamentos = await unitofwork.Medicamentos.GetCantidadMenorA50(); //Redirecciono al método que devuelve lo solicitado en este EndPoint.
+        var medicamentoDtos = mapper.Map<List<MedicamentoDto>>(medicamentos); // luego los datos completos del método les aplico un filtro usando un Dto para elegir que datos voy a mostrar.
+        return Ok(medicamentoDtos); 
+    }
+
+
+        
+
+
+
+
+
+
+
+
+
 
     [HttpGet("MedicamentosNoVendidos")]
 

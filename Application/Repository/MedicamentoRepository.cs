@@ -30,6 +30,22 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    // Consultas Requeridas
+
+    public async Task<IEnumerable<Medicamento>> GetCantidadMenorA50()
+    {
+        return await _context.Medicamentos
+            .Where(p => p.Stock < 50)
+            .ToListAsync();
+    }
+
+
+
+
+
+
+
+
 
 
 

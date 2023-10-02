@@ -16,4 +16,5 @@ namespace Domain.Interfaces;
         Task<IEnumerable<Object>> GetInfoGananciaPorProveedor();
         Task<IEnumerable<object>> ProveedoresConCincoMedicamentosDiferentesEn2023();
 
+
     }
