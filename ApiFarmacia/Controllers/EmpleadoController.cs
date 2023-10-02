@@ -105,6 +105,7 @@ public class EmpleadoController : ApiBaseController
 
     [HttpGet("empleadosconmenosde5")]
     
+<<<<<<< HEAD
     public async Task<ActionResult<object>> ObtenerTotalVentas5PorEmpleadoAsync()
     {
         var entidad = await unitofwork.Empleados.ObtenerTotalVentas5PorEmpleadoAsync();
@@ -115,3 +116,95 @@ public class EmpleadoController : ApiBaseController
 
 
 }
+=======
+            public async Task<ActionResult<IEnumerable<EmpleadoDto>>> Get()
+            {
+                var Empleado = await unitofwork.Empleados.GetAllAsync();
+                return mapper.Map<List<EmpleadoDto>>(Empleado);
+            }
+    
+            [HttpGet("{id}")]
+            [ProducesResponseType(StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status400BadRequest)]
+            [ProducesResponseType(StatusCodes.Status404NotFound)]
+    
+            public async Task<ActionResult<EmpleadoDto>> Get(int id)
+            {
+                var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
+                if (Empleado == null){
+                    return NotFound();
+                }
+                return this.mapper.Map<EmpleadoDto>(Empleado);
+            }
+
+            [HttpGet("GetInfoCantidadVentas")]
+            public async Task<IActionResult> GetInfoCantidadVentas()
+            {
+                var Empleado = await unitofwork.Empleados.GetInfoCantidadVentas();
+                if (Empleado == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Empleado)); // Devuelve la colección si se encontró.
+            }
+
+            [HttpGet("GetEmpleadocon5Ventas")]
+            public async Task<IActionResult> GetEmpleadocon5Ventas()
+            {
+                var Empleado = await unitofwork.Empleados.GetEmpleadocon5Ventas();
+                if (Empleado == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Empleado)); // Devuelve la colección si se encontró.
+            }
+    
+            [HttpPost]
+            [ProducesResponseType(StatusCodes.Status201Created)]
+            [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    
+            public async Task<ActionResult<Empleado>> Post(EmpleadoDto empleadoDto)
+            {
+                var Empleado = this.mapper.Map<Empleado>(empleadoDto);
+                this.unitofwork.Empleados.Add(Empleado);
+                await unitofwork.SaveAsync();
+                if(Empleado == null)
+                {
+                    return BadRequest();
+                }
+                empleadoDto.Id = Empleado.Id;
+                return CreatedAtAction(nameof(Post), new {id = empleadoDto.Id}, empleadoDto);
+            }
+            
+            [HttpPut("{id}")]
+            [ProducesResponseType(StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status400BadRequest)]
+            [ProducesResponseType(StatusCodes.Status404NotFound)]
+    
+            public async Task<ActionResult<EmpleadoDto>> Put(int id, [FromBody]EmpleadoDto empleadoDto){
+                if(empleadoDto == null)
+                {
+                    return NotFound();
+                }
+                var Empleado = this.mapper.Map<Empleado>(empleadoDto);
+                unitofwork.Empleados.Update(Empleado);
+                await unitofwork.SaveAsync();
+                return empleadoDto;
+            }
+    
+            [HttpDelete("{id}")]
+            [ProducesResponseType(StatusCodes.Status204NoContent)]
+            [ProducesResponseType(StatusCodes.Status404NotFound)]
+    
+            public async Task<IActionResult> Delete(int id){
+                var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
+                if(Empleado == null)
+                {
+                    return NotFound();
+                }
+                unitofwork.Empleados.Remove(Empleado);
+                await unitofwork.SaveAsync();
+                return NoContent();
+            }
+        } 
+>>>>>>> a9760254e668227d181f52a65af81084078ccc70

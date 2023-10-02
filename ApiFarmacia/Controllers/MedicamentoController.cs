@@ -64,6 +64,28 @@ public class MedicamentoController : ApiBaseController
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
 
+    [HttpGet("GetInfoPromedioMedicamento")]
+    public async Task<IActionResult> GetInfoPromedioMedicamento()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoPromedioMedicamento();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+
+    [HttpGet("GetInfoMedicamentoVencidos")]
+    public async Task<IActionResult> GetInfoMedicamentoVencidos()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoVencidos();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
