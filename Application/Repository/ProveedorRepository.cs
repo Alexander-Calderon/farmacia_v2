@@ -156,6 +156,48 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
     return resultados;
 }
 
+public async Task<IEnumerable<object>> ProveedoresConInformacionDeContactoAsync()
+{
+    var resultados = await (
+        from m in _context.Medicamentos
+        join cp in _context.CompraProveedores on m.Id equals cp.IdMedicamentoFk
+        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+        join cpv in _context.ContactoProveedores on p.Id equals cpv.IdProveedorFk into contactosProveedor
+        from contactoProveedor in contactosProveedor.DefaultIfEmpty()
+        join c in _context.Contactos on contactoProveedor.IdContactoFk equals c.Id into contactos
+        from contacto in contactos.DefaultIfEmpty()
+        join tc in _context.TipoContactos on contacto.IdTipoContactoFk equals tc.Id into tiposContactos
+        from tipoContacto in tiposContactos.DefaultIfEmpty()
+        group new { m, p, contacto, tipoContacto } by new { m.Id, m.Nombre, NombreProveedor = p.Nombre } into grupoProveedores
+        select new
+        {
+            IdMedicamento = grupoProveedores.Key.Id,
+            NombreMedicamento = grupoProveedores.Key.Nombre,
+            NombreProveedor = grupoProveedores.Key.NombreProveedor,
+            ContactosProveedor = string.Join(", ", grupoProveedores.Where(x => x.contacto != null).Select(x => x.contacto.Descripcion).Distinct()),
+            TiposContactoProveedor = string.Join(", ", grupoProveedores.Where(x => x.tipoContacto != null).Select(x => x.tipoContacto.Nombre).Distinct())
+        }
+    ).ToListAsync();
+
+    return resultados;
+}
+
+public async Task<IEnumerable<object>> MedicamentosCompradosPorProveedorAsync(string proveedorNombre)
+{
+    var resultados = await (
+        from m in _context.Medicamentos
+        join cp in _context.CompraProveedores on m.Id equals cp.IdMedicamentoFk
+        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+        where p.Nombre.Contains(proveedorNombre) // Utiliza Contains para buscar proveedores que contengan el nombre dinámico.
+        select new
+        {
+            IdMedicamento = m.Id,
+            NombreMedicamento = m.Nombre
+        }
+    ).ToListAsync();
+
+    return resultados;
+}
 
 
 }

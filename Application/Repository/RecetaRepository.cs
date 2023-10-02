@@ -27,4 +27,11 @@ public class RecetaRepository : GenericRepository<Receta>, IReceta
         .Include(p => p.DetallesFacturas)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
+    public async Task<IEnumerable<Receta>> ObtenerRecetasEmitidasDespuesDeFechaAsync(DateTime fecha)
+{
+    return await _context.Recetas
+        .Where(r => r.FechaEmision > fecha)
+        .ToListAsync();
+}
+
 }
