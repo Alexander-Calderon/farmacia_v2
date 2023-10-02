@@ -34,4 +34,16 @@ public async Task<object> ObtenerPacienteQueMasGastoAsync()
     return query;
 }
 
+    public async Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento)
+    {
+        return await 
+        (
+            from p in _context.Pacientes
+            join f in _context.Facturas on p.Id equals f.Id
+            join df in _context.DetalleFacturas on f.Id equals df.Id
+            where df.Id == IdMedicamento
+            select p
+        ).Distinct().ToListAsync();
+
+    }
 }

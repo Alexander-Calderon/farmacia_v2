@@ -42,6 +42,21 @@ namespace APIFarmacia.Controllers;
         return this.mapper.Map<MedicamentoDto>(medicamento);
     }
 
+    // [HttpGet("GetInfoMedicamentoPorProveedor")]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+    // public async Task<ActionResult<MedicamentoDto>> GetInfoMedicamentoPorProveedor()
+    // {
+    //     var medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoPorProveedor();
+    //     if (medicamento == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     return this.mapper.Map<MedicamentoDto>(medicamento);
+    // }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
