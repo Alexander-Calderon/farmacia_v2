@@ -8,13 +8,13 @@ namespace APIFarmacia.Controllers;
 
 public class MedicamentoController : ApiBaseController
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork unitofwork;
+    private readonly IMapper mapper;
 
-    public MedicamentoController(IUnitOfWork _unitOfWork, IMapper _mapper)
+    public MedicamentoController(IUnitOfWork unitofwork, IMapper mapper)
     {
-        this._unitOfWork = _unitOfWork;
-        this._mapper = _mapper;
+        this.unitofwork = unitofwork;
+        this.mapper = mapper;
     }
 
     [HttpGet]
@@ -23,8 +23,8 @@ public class MedicamentoController : ApiBaseController
 
     public async Task<ActionResult<IEnumerable<MedicamentoDto>>> Get()
     {
-        var medicamento = await _unitOfWork.Medicamentos.GetAllAsync();
-        return _mapper.Map<List<MedicamentoDto>>(medicamento);
+        var medicamento = await unitofwork.Medicamentos.GetAllAsync();
+        return mapper.Map<List<MedicamentoDto>>(medicamento);
     }
 
     [HttpGet("{id}")]
@@ -34,28 +34,66 @@ public class MedicamentoController : ApiBaseController
 
     public async Task<ActionResult<MedicamentoDto>> Get(int id)
     {
-        var medicamento = await _unitOfWork.Medicamentos.GetByIdAsync(id);
+        var medicamento = await unitofwork.Medicamentos.GetByIdAsync(id);
         if (medicamento == null)
         {
             return NotFound();
         }
-        return this._mapper.Map<MedicamentoDto>(medicamento);
+        return this.mapper.Map<MedicamentoDto>(medicamento);
     }
 
-    // [HttpGet("GetInfoMedicamentoPorProveedor")]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("GetInfoMedicamentoVendidos")]
+    public async Task<IActionResult> GetInfoMedicamentoVendidos()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoVendidos();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
 
     // public async Task<ActionResult<MedicamentoDto>> GetInfoMedicamentoPorProveedor()
     // {
-    //     var medicamento = await _unitOfWork.Medicamentos.GetInfoMedicamentoPorProveedor();
+    //     var medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoPorProveedor();
     //     if (medicamento == null)
     //     {
     //         return NotFound();
     //     }
-    //     return this._mapper.Map<MedicamentoDto>(medicamento);
+    //     return this.mapper.Map<MedicamentoDto>(medicamento);
     // }
+    [HttpGet("GetInfoMedicamentoMenosVendido")]
+    public async Task<IActionResult> GetInfoMedicamentoMenosVendido()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoMenosVendido();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+
+    [HttpGet("GetInfoPromedioMedicamento")]
+    public async Task<IActionResult> GetInfoPromedioMedicamento()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoPromedioMedicamento();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
+
+    [HttpGet("GetInfoMedicamentoVencidos")]
+    public async Task<IActionResult> GetInfoMedicamentoVencidos()
+    {
+        var Medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoVencidos();
+        if (Medicamento == null)
+        {
+            return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+        }
+        return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -63,9 +101,9 @@ public class MedicamentoController : ApiBaseController
 
     public async Task<ActionResult<Medicamento>> Post(MedicamentoDto medicamentoDto)
     {
-        var medicamento = this._mapper.Map<Medicamento>(medicamentoDto);
-        this._unitOfWork.Medicamentos.Add(medicamento);
-        await _unitOfWork.SaveAsync();
+        var medicamento = this.mapper.Map<Medicamento>(medicamentoDto);
+        this.unitofwork.Medicamentos.Add(medicamento);
+        await unitofwork.SaveAsync();
         if (medicamento == null)
         {
             return BadRequest();
@@ -85,9 +123,9 @@ public class MedicamentoController : ApiBaseController
         {
             return NotFound();
         }
-        var medicamento = this._mapper.Map<Medicamento>(medicamentoDto);
-        _unitOfWork.Medicamentos.Update(medicamento);
-        await _unitOfWork.SaveAsync();
+        var medicamento = this.mapper.Map<Medicamento>(medicamentoDto);
+        unitofwork.Medicamentos.Update(medicamento);
+        await unitofwork.SaveAsync();
         return medicamentoDto;
     }
 
@@ -97,13 +135,13 @@ public class MedicamentoController : ApiBaseController
 
     public async Task<IActionResult> Delete(int id)
     {
-        var medicamento = await _unitOfWork.Medicamentos.GetByIdAsync(id);
+        var medicamento = await unitofwork.Medicamentos.GetByIdAsync(id);
         if (medicamento == null)
         {
             return NotFound();
         }
-        _unitOfWork.Medicamentos.Remove(medicamento);
-        await _unitOfWork.SaveAsync();
+        unitofwork.Medicamentos.Remove(medicamento);
+        await unitofwork.SaveAsync();
         return NoContent();
     }
 
@@ -116,8 +154,8 @@ public class MedicamentoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetStockMenorA50()
     {
-        var medicamentos = await _unitOfWork.Medicamentos.GetCantidadMenorA50(); //Redirecciono al método que devuelve lo solicitado en este EndPoint.
-        var medicamentoDtos = _mapper.Map<List<MedicamentoDto>>(medicamentos); // luego los datos completos del método les aplico un filtro usando un Dto para elegir que datos voy a mostrar.
+        var medicamentos = await unitofwork.Medicamentos.GetCantidadMenorA50(); //Redirecciono al método que devuelve lo solicitado en este EndPoint.
+        var medicamentoDtos = mapper.Map<List<MedicamentoDto>>(medicamentos); // luego los datos completos del método les aplico un filtro usando un Dto para elegir que datos voy a mostrar.
         return Ok(medicamentoDtos); 
     }
 
@@ -131,6 +169,24 @@ public class MedicamentoController : ApiBaseController
 
 
 
+
+
+    [HttpGet("MedicamentosNoVendidos")]
+
+    public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
+    {
+        var medicamento = await unitofwork.Medicamentos.ObtenerMedicamentosNoVendidosAsync();
+        return mapper.Map<IEnumerable<object>>(medicamento);
+    }
+
+    [HttpGet("totalmedicamentospormes")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> ObtenerTotalMedicamentosVendidosPorMesEn2023Async()
+    {
+        var totalMedicamentosPorMes = await unitofwork.Medicamentos.ObtenerTotalMedicamentosVendidosPorMesEn2023Async();
+        return Ok(totalMedicamentosPorMes);
+    }
 
 
 }

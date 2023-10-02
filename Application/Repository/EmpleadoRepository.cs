@@ -29,4 +29,90 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
         .Include(p => p.ComprasProveedores)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+<<<<<<< HEAD
+    public async Task<IEnumerable<Empleado>> ObtenerEmpleadosSinFacturasAsync()
+    {
+        var empleadosSinFacturas = await (
+            from e in _context.Empleados
+            join f in _context.Facturas
+                on e.Id equals f.IdEmpleadoFk into facturasGroup
+            where facturasGroup.All(f => f == null || f.FechaCreacion < new DateTime(2023, 01, 01))
+            select e
+        ).ToListAsync();
+
+        return empleadosSinFacturas;
+    }
+
+    public async Task<IEnumerable<object>> ObtenerTotalVentas5PorEmpleadoAsync()
+{
+    var totalVentas2023PorEmpleado = await (
+        from e in _context.Empleados
+        select new
+        {
+            IdEmpleado = e.Id,
+            NombreEmpleado = e.Nombre,
+            TotalVentas2023 = _context.Facturas
+                .Join(
+                    _context.DetalleFacturas,
+                    f => f.Id,
+                    df => df.IdFacturaFk,
+                    (f, df) => new { Factura = f, DetalleFactura = df }
+                )
+                .Where(joined => joined.Factura.FechaCreacion.Year == 2023 && joined.Factura.IdEmpleadoFk == e.Id)
+                .Count()
+        }
+    ).ToListAsync();
+
+    return totalVentas2023PorEmpleado;
+}
+
+
+
+
+
+=======
+    public async Task<IEnumerable<Object>> GetInfoCantidadVentas()
+    {
+        var result = await (
+            from df in _context.DetalleFacturas
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            where f.FechaCreacion >= new DateTime(2023, 1, 1)
+            group df by df.IdMedicamentoFk into grouped
+            select new
+            {
+                IdEmpleadoFK = grouped.Key,
+                TotalVentas = grouped.Count()
+            }
+        ).ToListAsync();
+
+        return result;
+    }
+
+    public async Task<IEnumerable<Object>> GetEmpleadocon5Ventas()
+    {
+        var empleadosConVentas = await 
+        (
+            from f in _context.Facturas
+            join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+            where f.FechaCreacion >= new DateTime(2023, 1, 1)
+            select new
+            {
+                IdEmpleadoFK = f.IdEmpleadoFk,
+            }
+        ).ToListAsync();
+
+        var empleadosConMasDe5Ventas = empleadosConVentas
+            .GroupBy(e => e.IdEmpleadoFK)
+            .Where(group => group.Count() > 5)
+            .Select(group => new
+            {
+                IdEmpleadoFK = group.Key,
+                TotalVentas = group.Count()
+            });
+
+        return empleadosConMasDe5Ventas;
+    }
+>>>>>>> a9760254e668227d181f52a65af81084078ccc70
+
 }

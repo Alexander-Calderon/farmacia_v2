@@ -8,5 +8,8 @@ namespace Domain.Interfaces;
 
     public interface IPaciente:IGenericRepository<Paciente>
     {
+        Task<IEnumerable<object>> ObtenerPacienteConMayorGastoAsync();
         Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento);
+        Task<IEnumerable<object>> ObtenerPacientesConParacetamolAsync();
+        Task<IEnumerable<Paciente>> ObtenerPacientesSinComprasEn2023Async();
     }

@@ -14,6 +14,30 @@ public class PacienteRepository : GenericRepository<Paciente>, IPaciente
         _context = context;
     }
 
+
+public async Task<IEnumerable<object>> ObtenerPacienteConMayorGastoAsync()
+{
+    var pacienteConMayorGasto = await (
+        from p in _context.Pacientes
+        join f in _context.Facturas on p.Id equals f.IdPacienteFk
+        join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+        where f.FechaCreacion.Year == 2023
+        group df by new { p.Id, p.Nombre } into g
+        orderby g.Sum(df => df.PrecioUnitario * df.Cantidad) descending
+        select new
+        {
+            Id = g.Key.Id,
+            PacienteNombre = g.Key.Nombre,
+            TotalGastado = g.Sum(df => df.PrecioUnitario * df.Cantidad)
+        }
+    ).FirstOrDefaultAsync();
+
+    return new List<object> { pacienteConMayorGasto };
+}
+
+
+
+
     public async Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento)
     {
         return await 
@@ -26,4 +50,42 @@ public class PacienteRepository : GenericRepository<Paciente>, IPaciente
         ).Distinct().ToListAsync();
 
     }
+
+
+    public async Task<IEnumerable<object>> ObtenerPacientesConParacetamolAsync()
+{
+    var pacientesConParacetamol = await (
+        from p in _context.Pacientes
+        join f in _context.Facturas on p.Id equals f.IdPacienteFk
+        join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+        join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+        where m.Nombre == "Paracetamol" && f.FechaCreacion.Year == 2023
+        select new
+        {
+            Id = p.Id,
+            PacienteNombre = p.Nombre
+        }
+    ).Distinct().ToListAsync();
+
+    return pacientesConParacetamol;
+}
+
+public async Task<IEnumerable<Paciente>> ObtenerPacientesSinComprasEn2023Async()
+{
+    var pacientesSinComprasEn2023 = await (
+        from p in _context.Pacientes
+        join f in _context.Facturas on p.Id equals f.IdPacienteFk into facturaGroup
+        from factura in facturaGroup.DefaultIfEmpty()
+        join df in _context.DetalleFacturas on factura.Id equals df.IdFacturaFk into detalleFacturaGroup
+        from detalleFactura in detalleFacturaGroup.DefaultIfEmpty()
+        join m in _context.Medicamentos on detalleFactura.IdMedicamentoFk equals m.Id into medicamentoGroup
+        from medicamento in medicamentoGroup.DefaultIfEmpty()
+        where (factura == null || factura.FechaCreacion.Year != 2023) && medicamento == null
+        select p
+    ).Distinct().ToListAsync();
+
+    return pacientesSinComprasEn2023;
+}
+
+
 }
