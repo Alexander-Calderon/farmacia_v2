@@ -50,22 +50,28 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
     public async Task<IEnumerable<Object>> GetInfoVentaUltimoAnoProveedor()
     {
-        return await
-        (
-            from cp in _context.CompraProveedores
-            join df in _context.DetalleFacturas on cp.IdEmpleadoFk equals df.Id into joinedDf
-            from subDf in joinedDf.DefaultIfEmpty()
 
-            join f in _context.Facturas on subDf.IdFacturaFk equals f.Id into joinedFacturas
-            from subFactura in joinedFacturas.DefaultIfEmpty()
-            where subFactura == null || subFactura.FechaCreacion < DateTime.Now.AddYears(-1)
+        var proveedoresConComprasUltimoAno = (
+            from cp in _context.CompraProveedores
+            where cp.FechaCompra >= DateTime.Now.AddYears(-1)
+            select cp.IdProveedorFk
+        ).Distinct();
+
+        var proveedoresSinComprasUltimoAno = (
+            from proveedor in _context.Proveedores
+            where !proveedoresConComprasUltimoAno.Contains(proveedor.Id)
             select new
             {
-                IdProveedor = cp.IdProveedorFk,
-                NombreProveedor = cp.Proveedor.Nombre
+                ProveedorId = proveedor.Id,
+                ProveedorNombre = proveedor.Nombre
             }
-        ).Distinct().ToListAsync();
+        );
+
+        return await proveedoresSinComprasUltimoAno.ToListAsync();
     }
+
+
+
 
     public async Task<IEnumerable<object>> ObtenerProveedorConMasMedicamentosSuministradosAsync()
     {
