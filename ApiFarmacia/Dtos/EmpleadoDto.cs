@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Domain.Entities;
 
 namespace ApiFarmacia.Dtos;
@@ -15,6 +12,7 @@ namespace ApiFarmacia.Dtos;
         public int IdCargoFk {get; set;}
         public int IdTipoDocumentoFk {get; set;}
         public int IdDireccionFk {get; set;}
-        public int IdContactoFk {get; set;}
         public int IdUserFk {get; set;}
+
+        public ICollection<ContactoEmpleado> ContactosEmpleados {get;set;}
     }
