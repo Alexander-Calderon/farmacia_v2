@@ -111,8 +111,6 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
 
         return empleadosConMasDe5Ventas;
     }
-<<<<<<< HEAD
-=======
     public async Task<object> EmpleadoMaxMedicamentosDistintos(int year)
     {
         var inicioAño = new DateOnly(year, 1, 1);
@@ -163,6 +161,5 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
         return empleadosSinVentasAbril;
 
     }
->>>>>>> 1e202cf16d0ab88b20b71006383e31a696daaead
 
 }
