@@ -9,5 +9,5 @@ namespace Domain.Interfaces;
     public interface IPaciente:IGenericRepository<Paciente>
     {
         Task<object> ObtenerPacienteQueMasGastoAsync();
-        Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento);
+        Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento();
     }

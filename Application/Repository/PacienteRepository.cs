@@ -34,16 +34,23 @@ public async Task<object> ObtenerPacienteQueMasGastoAsync()
     return query;
 }
 
-    public async Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento(int IdMedicamento)
+    public async Task<IEnumerable<Object>> GetInfoPacientesCompraMedicamento()
     {
-        return await 
-        (
-            from p in _context.Pacientes
-            join f in _context.Facturas on p.Id equals f.Id
-            join df in _context.DetalleFacturas on f.Id equals df.Id
-            where df.Id == IdMedicamento
-            select p
-        ).Distinct().ToListAsync();
+        var pacientesQueCompraronParacetamol = (
+            from paciente in _context.Pacientes
+            join factura in _context.Facturas on paciente.Id equals factura.IdPacienteFk
+            join detalleFactura in _context.DetalleFacturas on factura.Id equals detalleFactura.IdFacturaFk
+            join medicamento in _context.Medicamentos on detalleFactura.IdMedicamentoFk equals medicamento.Id
+            where medicamento.Nombre == "Paracetamol"
+            select new
+            {
+                PACIENTES = paciente.Nombre
+            }
+        ).Distinct();
 
+        return await pacientesQueCompraronParacetamol.ToListAsync();
     }
+
+
+
 }

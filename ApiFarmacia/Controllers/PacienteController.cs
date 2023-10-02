@@ -45,10 +45,10 @@ public class PacienteController : ApiBaseController
         return this.mapper.Map<PacienteDto>(Paciente);
     }
 
-            [HttpGet("GetInfoPacientesCompraMedicamento/{id}")]
-            public async Task<IActionResult> GetInfoPacientesCompraMedicamento(int IdMedicamento)
+            [HttpGet("GetInfoPacientesCompraMedicamento")]
+            public async Task<IActionResult> GetInfoPacientesCompraMedicamento()
             {
-                var Paciente = await unitofwork.Pacientes.GetInfoPacientesCompraMedicamento(IdMedicamento);
+                var Paciente = await unitofwork.Pacientes.GetInfoPacientesCompraMedicamento();
                 if (Paciente == null)
                 {
                     return NotFound(); // Devuelve 404 si no se encuentra el recurso.
