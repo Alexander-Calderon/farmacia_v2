@@ -62,4 +62,23 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
             }
         ).Distinct().ToListAsync();
     }
+    public async Task<IEnumerable<Object>> GetInfoGananciaPorProveedor()
+    {
+        var result = await (
+            from cp in _context.CompraProveedores
+            join df in _context.DetalleFacturas on cp.IdMedicamentoFk equals df.Id
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            where f.FechaCreacion >= new DateTime(2023, 1, 1)
+            group new { cp, df } by cp.IdProveedorFk into grouped
+            select new
+            {
+                IdProveedorFK = grouped.Key,
+                Ganancia = grouped.Sum(item => item.df.Cantidad * (item.df.PrecioUnitario - item.cp.PrecioUnitario))
+            }
+        ).ToListAsync();
+
+        return result;
+    }
+
+
 }

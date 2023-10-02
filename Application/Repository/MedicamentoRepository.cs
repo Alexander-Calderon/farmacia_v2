@@ -62,4 +62,31 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         return await Task.FromResult(new List<Object> { result });
     }
 
+    public async Task<IEnumerable<Object>> GetInfoPromedioMedicamento()
+    {
+        var promedioMedicamentosCompradosPorVenta = await Task.Run(() =>
+        {
+            return (
+                from cp in _context.CompraProveedores
+                join df in _context.DetalleFacturas on cp.IdMedicamentoFk equals df.IdMedicamentoFk
+                select cp.Cantidad
+            ).Average();
+        });
+
+        return new List<Object> { new { Promedio = promedioMedicamentosCompradosPorVenta } };
+    }
+
+    public async  Task<IEnumerable<Object>> GetInfoMedicamentoVencidos()
+    {
+        DateTime fechaInicio = new DateTime(2024, 1, 1);
+        DateTime fechaFin = new DateTime(2024, 12, 31);
+
+        var medicamentos = await _context.Medicamentos
+        .Where(m => m.FechaVencimiento >= fechaInicio && m.FechaVencimiento <= fechaFin)
+        .ToListAsync();
+
+        return medicamentos;
+    }
+
+
 }

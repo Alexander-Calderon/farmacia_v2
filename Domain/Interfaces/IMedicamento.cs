@@ -7,5 +7,9 @@ namespace Domain.Interfaces;
     {
         Task<IEnumerable<Object>> GetInfoMedicamentoVendidos();
         Task<IEnumerable<Object>> GetInfoMedicamentoMenosVendido();
+        Task<IEnumerable<Object>> GetInfoPromedioMedicamento();
+        Task<IEnumerable<Object>> GetInfoMedicamentoVencidos();
+
+
 
     }

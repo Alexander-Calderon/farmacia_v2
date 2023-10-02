@@ -42,6 +42,28 @@ namespace ApiFarmacia.Controllers;
                 }
                 return this.mapper.Map<EmpleadoDto>(Empleado);
             }
+
+            [HttpGet("GetInfoCantidadVentas")]
+            public async Task<IActionResult> GetInfoCantidadVentas()
+            {
+                var Empleado = await unitofwork.Empleados.GetInfoCantidadVentas();
+                if (Empleado == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Empleado)); // Devuelve la colección si se encontró.
+            }
+
+            [HttpGet("GetEmpleadocon5Ventas")]
+            public async Task<IActionResult> GetEmpleadocon5Ventas()
+            {
+                var Empleado = await unitofwork.Empleados.GetEmpleadocon5Ventas();
+                if (Empleado == null)
+                {
+                    return NotFound(); // Devuelve 404 si no se encuentra el recurso.
+                }
+                return Ok(this.mapper.Map<IEnumerable<Object>>(Empleado)); // Devuelve la colección si se encontró.
+            }
     
             [HttpPost]
             [ProducesResponseType(StatusCodes.Status201Created)]
