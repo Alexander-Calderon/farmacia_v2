@@ -43,4 +43,23 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
             }
         ).ToListAsync();
     }
+
+    public async Task<IEnumerable<Object>> GetInfoVentaUltimoAnoProveedor()
+    {
+        return await 
+        (
+            from cp in _context.CompraProveedores
+            join df in _context.DetalleFacturas on cp.IdEmpleadoFk equals df.Id into joinedDf
+            from subDf in joinedDf.DefaultIfEmpty()
+
+            join f in _context.Facturas on subDf.IdFacturaFk equals f.Id into joinedFacturas
+            from subFactura in joinedFacturas.DefaultIfEmpty()
+            where subFactura == null || subFactura.FechaCreacion < DateTime.Now.AddYears(-1)
+            select new 
+            {
+                IdProveedor = cp.IdProveedorFk,
+                NombreProveedor = cp.Proveedor.Nombre 
+            }
+        ).Distinct().ToListAsync();
+    }
 }
