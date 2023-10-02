@@ -1,6 +1,7 @@
 
 using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -115,7 +116,7 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         return totalMedicamentosPorMes;
     }
 
-    
+
 
     public async Task<IEnumerable<Object>> GetInfoPromedioMedicamento()
     {
@@ -131,7 +132,7 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         return new List<Object> { new { Promedio = promedioMedicamentosCompradosPorVenta } };
     }
 
-    public async  Task<IEnumerable<Object>> GetInfoMedicamentoVencidos()
+    public async Task<IEnumerable<Object>> GetInfoMedicamentoVencidos()
     {
         DateTime fechaInicio = new DateTime(2024, 1, 1);
         DateTime fechaFin = new DateTime(2024, 12, 31);
@@ -143,80 +144,117 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         return medicamentos;
     }
 
-public async Task<IEnumerable<object>> MedicamentosVendidosPorMesEn2023Async()
-{
-    var resultados = await (
-        from factura in _context.Facturas
-        join detalleFactura in _context.DetalleFacturas on factura.Id equals detalleFactura.IdFacturaFk
-        join medicamento in _context.Medicamentos on detalleFactura.IdMedicamentoFk equals medicamento.Id
-        where factura.FechaCreacion.Year == 2023
-        select new
-        {
-            medicamento.Id,
-            medicamento.Nombre,
-            factura.FechaCreacion
-        }
-    ).ToListAsync();
+    public async Task<IEnumerable<object>> MedicamentosVendidosPorMesEn2023Async()
+    {
+        var resultados = await (
+            from factura in _context.Facturas
+            join detalleFactura in _context.DetalleFacturas on factura.Id equals detalleFactura.IdFacturaFk
+            join medicamento in _context.Medicamentos on detalleFactura.IdMedicamentoFk equals medicamento.Id
+            where factura.FechaCreacion.Year == 2023
+            select new
+            {
+                medicamento.Id,
+                medicamento.Nombre,
+                factura.FechaCreacion
+            }
+        ).ToListAsync();
 
-    // Realizamos el agrupamiento y la suma en memoria
-    var resultadosAgrupados = resultados
-        .GroupBy(x => new { x.Id, x.Nombre, Mes = x.FechaCreacion.ToString("yyyy-MM") })
-        .Select(g => new
-        {
-            g.Key.Id,
-            g.Key.Nombre,
-            Mes = g.Key.Mes,
-            Total = g.Sum(x => 1)  // Contamos la cantidad de registros para obtener el total
-        })
-        .ToList();
+        // Realizamos el agrupamiento y la suma en memoria
+        var resultadosAgrupados = resultados
+            .GroupBy(x => new { x.Id, x.Nombre, Mes = x.FechaCreacion.ToString("yyyy-MM") })
+            .Select(g => new
+            {
+                g.Key.Id,
+                g.Key.Nombre,
+                Mes = g.Key.Mes,
+                Total = g.Sum(x => 1)  // Contamos la cantidad de registros para obtener el total
+            })
+            .ToList();
 
-    return resultadosAgrupados;
-}
-public async Task<IEnumerable<object>> MedicamentosNoVendidosEn2023(int year)
-{
-    var medicamentosNoVendidos = await (
-        from m in _context.Medicamentos
-        where !_context.DetalleFacturas
-            .Join(
-                _context.Facturas.Where(f => f.FechaCreacion.Year == year),
-                df => df.IdFacturaFk,
-                f => f.Id,
-                (df, f) => df.IdMedicamentoFk
-            )
-            .Distinct()
-            .Contains(m.Id)
-        select new
-        {
-            MedicamentoId = m.Id,
-            NombreMedicamento = m.Nombre
-        }
-    ).ToListAsync();
+        return resultadosAgrupados;
+    }
+    public async Task<IEnumerable<object>> MedicamentosNoVendidosEn2023(int year)
+    {
+        var medicamentosNoVendidos = await (
+            from m in _context.Medicamentos
+            where !_context.DetalleFacturas
+                .Join(
+                    _context.Facturas.Where(f => f.FechaCreacion.Year == year),
+                    df => df.IdFacturaFk,
+                    f => f.Id,
+                    (df, f) => df.IdMedicamentoFk
+                )
+                .Distinct()
+                .Contains(m.Id)
+            select new
+            {
+                MedicamentoId = m.Id,
+                NombreMedicamento = m.Nombre
+            }
+        ).ToListAsync();
 
-    return medicamentosNoVendidos;
-}
-public async Task<int> TotalMedicamentosVendidosPrimerTrimestre2023()
-{
-    var inicioTrimestre = new DateTime(2023, 1, 1);
-    var finTrimestre = new DateTime(2023, 3, 31);
+        return medicamentosNoVendidos;
+    }
+    public async Task<int> TotalMedicamentosVendidosPrimerTrimestre2023()
+    {
+        var inicioTrimestre = new DateTime(2023, 1, 1);
+        var finTrimestre = new DateTime(2023, 3, 31);
 
-    var total = await (
-        from df in _context.DetalleFacturas
-        join f in _context.Facturas on df.IdFacturaFk equals f.Id
-        where f.FechaCreacion >= inicioTrimestre && f.FechaCreacion <= finTrimestre
-        select df.Cantidad
-    ).SumAsync();
+        var total = await (
+            from df in _context.DetalleFacturas
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            where f.FechaCreacion >= inicioTrimestre && f.FechaCreacion <= finTrimestre
+            select df.Cantidad
+        ).SumAsync();
 
-    return total;
-}
-public async Task<IEnumerable<Medicamento>> MedicamentosConPrecioYStockAsync()
-{
-    var medicamentos = await (
-        from m in _context.Medicamentos
-        where m.PrecioUnitario > 50 && m.Stock < 100
-        select m
-    ).ToListAsync();
+        return total;
+    }
+    public async Task<IEnumerable<Medicamento>> MedicamentosConPrecioYStockAsync()
+    {
+        var medicamentos = await (
+            from m in _context.Medicamentos
+            where m.PrecioUnitario > 50 && m.Stock < 100
+            select m
+        ).ToListAsync();
 
-    return medicamentos;
-}
+        return medicamentos;
+    }
+
+
+    public async Task<int> TotalVentasParacetamolAsync()
+    {
+        var totalVentas = await (
+            from df in _context.DetalleFacturas
+            join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+            where m.Nombre.ToUpper().Contains("PARACETAMOL")
+            select df.Cantidad
+        ).SumAsync();
+
+        return totalVentas;
+    }
+
+    public async Task<IEnumerable<Medicamento>> MedicamentosVencidosAntesDe1Enero()
+    {
+        var medicamentosCaducados = await _context.Medicamentos
+        .Where(m => m.FechaVencimiento < new DateTime(2024, 1, 1))
+        .ToListAsync();
+
+        return medicamentosCaducados;
+    }
+
+
+    
+
+
+
+
+
+
+
+
+    
+
+
+
 
 }

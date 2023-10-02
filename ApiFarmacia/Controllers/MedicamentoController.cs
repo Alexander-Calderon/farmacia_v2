@@ -130,17 +130,17 @@ public class MedicamentoController : ApiBaseController
         return Ok(totalMedicamentos); // Devuelve el total como un valor entero.
     }
     [HttpGet("consulta38")]
-public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
-{
-    var totalMedicamentos = await unitofwork.Medicamentos.MedicamentosConPrecioYStockAsync();
-
-    if (totalMedicamentos == null || !totalMedicamentos.Any())
+    public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
     {
-        return NotFound(); // Devuelve 404 si la colección está vacía.
-    }
+        var totalMedicamentos = await unitofwork.Medicamentos.MedicamentosConPrecioYStockAsync();
 
-    return Ok(totalMedicamentos); // Devuelve la colección si no está vacía.
-}
+        if (totalMedicamentos == null || !totalMedicamentos.Any())
+        {
+            return NotFound(); // Devuelve 404 si la colección está vacía.
+        }
+
+        return Ok(totalMedicamentos); // Devuelve la colección si no está vacía.
+    }
 
 
     [HttpPost]
@@ -235,6 +235,35 @@ public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
         var totalMedicamentosPorMes = await unitofwork.Medicamentos.ObtenerTotalMedicamentosVendidosPorMesEn2023Async();
         return Ok(totalMedicamentosPorMes);
     }
+
+
+
+
+
+    [HttpGet("totalVentasParacetamol")]
+    public async Task<IActionResult> TotalVentasParacetamolAsync()
+    {
+        var totalVentas = await unitofwork.Medicamentos.TotalVentasParacetamolAsync();
+
+        var resultado = new { totalVentas };
+
+        return Ok(resultado);
+    }
+
+    [HttpGet("medicamentosVencidosAntesDe1Enero")]
+    public async Task<IActionResult> MedicamentosVencidosAntesDe1Enero()
+    {
+        var medicamentosCaducados = await unitofwork.Medicamentos.MedicamentosVencidosAntesDe1Enero();
+
+        if (medicamentosCaducados == null || !medicamentosCaducados.Any())
+        {
+            return NotFound();
+        }
+
+        return Ok(medicamentosCaducados); 
+}
+
+
 
 
 }

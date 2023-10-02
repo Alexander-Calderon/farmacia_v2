@@ -96,21 +96,21 @@ public class ProveedorRepository : GenericRepository<Proveedor>, IProveedor
 
 
     public async Task<IEnumerable<object>> ObtenerProveedoresConStockBajoAsync(int stockMinimo)
-{
-    var proveedoresConStockBajo = await (
-        from m in _context.Medicamentos
-        join cp in _context.CompraProveedores on m.Id equals cp.IdMedicamentoFk
-        join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
-        where m.Stock < stockMinimo
-        select new 
-        {
-            Proveedor = p,
-            Stock = m.Stock
-        }
-    ).Distinct().ToListAsync();
+    {
+        var proveedoresConStockBajo = await (
+            from m in _context.Medicamentos
+            join cp in _context.CompraProveedores on m.Id equals cp.IdMedicamentoFk
+            join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+            where m.Stock < stockMinimo
+            select new 
+            {
+                Proveedor = p,
+                Stock = m.Stock
+            }
+        ).Distinct().ToListAsync();
 
-    return proveedoresConStockBajo;
-}
+        return proveedoresConStockBajo;
+    }
 
 
 
