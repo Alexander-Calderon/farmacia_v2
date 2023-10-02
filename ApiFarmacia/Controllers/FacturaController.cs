@@ -43,6 +43,14 @@ namespace APIFarmacia.Controllers;
             return this.mapper.Map<FacturaDto>(factura);
         }
 
+        [HttpGet("totalDineroRecaudadoPorVentas")]
+        public async Task<IActionResult> TotalDineroRecaudadoPorVentasAsync()
+        {
+            var totalDineroRecaudado = await unitofwork.Facturas.TotalDineroRecaudadoPorVentasAsync();
+
+            return Ok(new { total = totalDineroRecaudado }); // Devuelve el resultado como un JSON con la propiedad "total".
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

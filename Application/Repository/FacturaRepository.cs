@@ -27,4 +27,15 @@ public class FacturaRepository : GenericRepository<Factura>, IFactura
         .Include(p => p.DetallesFacturas)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+    public async Task<decimal> TotalDineroRecaudadoPorVentasAsync()
+    {
+        var totalDineroRecaudado = await (
+            from df in _context.DetalleFacturas
+            select df.Cantidad * df.PrecioUnitario
+        ).SumAsync();
+
+        return totalDineroRecaudado;
+    }
+
 }

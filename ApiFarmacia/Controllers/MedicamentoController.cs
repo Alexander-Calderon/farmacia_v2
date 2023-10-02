@@ -53,15 +53,19 @@ public class MedicamentoController : ApiBaseController
         return Ok(this.mapper.Map<IEnumerable<Object>>(Medicamento)); // Devuelve la colección si se encontró.
     }
 
-    // public async Task<ActionResult<MedicamentoDto>> GetInfoMedicamentoPorProveedor()
-    // {
-    //     var medicamento = await unitofwork.Medicamentos.GetInfoMedicamentoPorProveedor();
-    //     if (medicamento == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     return this.mapper.Map<MedicamentoDto>(medicamento);
-    // }
+    [HttpGet("totalMedicamentosVendidosPorProveedor")]
+    public async Task<IActionResult> TotalMedicamentosVendidosPorProveedorAsync()
+    {
+        var totalMedicamentosPorProveedor = await unitofwork.Medicamentos.TotalMedicamentosVendidosPorProveedorAsync();
+
+        if (totalMedicamentosPorProveedor == null || !totalMedicamentosPorProveedor.Any())
+        {
+            return NotFound(); 
+        }
+
+        return Ok(totalMedicamentosPorProveedor); 
+    }
+
     [HttpGet("GetInfoMedicamentoMenosVendido")]
     public async Task<IActionResult> GetInfoMedicamentoMenosVendido()
     {
@@ -207,25 +211,21 @@ public class MedicamentoController : ApiBaseController
         return Ok(medicamentoDtos); 
     }
 
+    [HttpGet("medicamentosNoVendidos")]
+    public async Task<IActionResult> MedicamentosNoVendidosAsync()
+    {
+        var medicamentosNoVendidos = await unitofwork.Medicamentos.MedicamentosNoVendidosAsync();
+
+        if (medicamentosNoVendidos == null || !medicamentosNoVendidos.Any())
+        {
+            return NotFound(); 
+        }
+
+        return Ok(medicamentosNoVendidos);
+    }
+
 
         
-
-
-
-
-
-
-
-
-
-
-    [HttpGet("MedicamentosNoVendidos")]
-
-    public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
-    {
-        var medicamento = await unitofwork.Medicamentos.ObtenerMedicamentosNoVendidosAsync();
-        return mapper.Map<IEnumerable<object>>(medicamento);
-    }
 
     [HttpGet("totalmedicamentospormes")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -261,8 +261,60 @@ public class MedicamentoController : ApiBaseController
         }
 
         return Ok(medicamentosCaducados); 
-}
+    }
 
+    [HttpGet("medicamentoMasCaro")]
+    public async Task<IActionResult> ObtenerMedicamentoMasCaroAsync()
+    {
+        var medicamentoMasCaro = await unitofwork.Medicamentos.ObtenerMedicamentoMasCaroAsync();
+
+        if (medicamentoMasCaro == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(medicamentoMasCaro);
+    }
+
+    [HttpGet("totalMedicamentosVendidosMarzo2023")]
+    public async Task<IActionResult> ObtenerTotalMedicamentosVendidosMarzo2023Async()
+    {
+        var totalMedicamentosVendidos = await unitofwork.Medicamentos.ObtenerTotalMedicamentosVendidosMarzo2023Async();
+
+        return Ok(new { total_medicamentos_vendidos = totalMedicamentosVendidos });
+    }
+
+    
+    [HttpGet("medicamentoMenosVendido2023")]
+    public async Task<IActionResult> ObtenerMedicamentoMenosVendido2023Async()
+    {
+        var medicamentoMenosVendido = await unitofwork.Medicamentos.ObtenerMedicamentoMenosVendido2023Async();
+
+        if (medicamentoMenosVendido == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new { medicamento_menos_vendido = medicamentoMenosVendido });
+    }
+
+            
+        [HttpGet("promedioMedicamentosPorVenta")]
+        public async Task<IActionResult> ObtenerPromedioMedicamentosPorVentaAsync()
+        {
+            var promedioMedicamentosPorVenta = await unitofwork.Medicamentos.ObtenerPromedioMedicamentosPorVentaAsync();
+
+            return Ok(new { PromedioMedicamentosPorVenta = promedioMedicamentosPorVenta });
+        }
+
+        
+        [HttpGet("medicamentosExpiranEn2024")]
+        public async Task<IActionResult> ObtenerMedicamentosExpiranEn2024Async()
+        {
+            var medicamentosExpiranEn2024 = await  unitofwork.Medicamentos.ObtenerMedicamentosExpiranEn2024Async();
+
+            return Ok(medicamentosExpiranEn2024);
+        }
 
 
 

@@ -15,4 +15,8 @@ namespace Domain.Interfaces;
         Task<object> EmpleadoMaxMedicamentosDistintos(int year);
         Task<IEnumerable<object>> EmpleadosSinVentasEnAbril2023Async();
 
+         Task<IEnumerable<object>> ObtenerCantidadVentasPorEmpleadoAsync();
+
+          Task<IEnumerable<object>> ObtenerEmpleadosConMasDe5VentasAsync();
+
     }

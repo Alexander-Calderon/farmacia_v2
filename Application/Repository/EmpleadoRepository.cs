@@ -162,4 +162,42 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
 
     }
 
+    public async Task<IEnumerable<object>> ObtenerCantidadVentasPorEmpleadoAsync()
+    {
+        var ventasPorEmpleado = await (
+            from e in _context.Empleados
+            join f in _context.Facturas on e.Id equals f.IdEmpleadoFk
+            join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+            where f.FechaCreacion >= new DateTime(2023, 1, 1) && f.FechaCreacion <= new DateTime(2023, 12, 31)
+            group e by new { e.Id, e.Nombre } into g
+            select new
+            {
+                IdEmpleado = g.Key.Id,
+                NombreEmpleado = g.Key.Nombre,
+                TotalVentas = g.Count()
+            }
+        ).ToListAsync();
+
+        return ventasPorEmpleado;
+    }
+
+    public async Task<IEnumerable<object>> ObtenerEmpleadosConMasDe5VentasAsync()
+    {
+        var empleadosConMasDe5Ventas = await (
+            from e in _context.Empleados
+            join f in _context.Facturas on e.Id equals f.IdEmpleadoFk
+            join df in _context.DetalleFacturas on f.Id equals df.IdFacturaFk
+            group e by new { e.Id, e.Nombre } into g
+            where g.Count() > 5
+            select new
+            {
+                IdEmpleado = g.Key.Id,
+                NombreEmpleado = g.Key.Nombre,
+                TotalVentas = g.Count()
+            }
+        ).ToListAsync();
+
+        return empleadosConMasDe5Ventas;
+    }
+
 }

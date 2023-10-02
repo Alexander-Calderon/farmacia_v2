@@ -21,8 +21,14 @@ namespace Domain.Interfaces;
 
         Task<int> TotalVentasParacetamolAsync();
         Task<IEnumerable<Medicamento>> MedicamentosVencidosAntesDe1Enero();
+         Task<IEnumerable<object>> TotalMedicamentosVendidosPorProveedorAsync();
+         Task<IEnumerable<Medicamento>> MedicamentosNoVendidosAsync();
 
-        
+        Task<Medicamento> ObtenerMedicamentoMasCaroAsync();
+         Task<int> ObtenerTotalMedicamentosVendidosMarzo2023Async();
+         Task<object> ObtenerMedicamentoMenosVendido2023Async();
+        Task<double> ObtenerPromedioMedicamentosPorVentaAsync();
 
+        Task<IEnumerable<Medicamento>> ObtenerMedicamentosExpiranEn2024Async();
 
     }

@@ -5,5 +5,5 @@ namespace Domain.Interfaces;
 
     public interface IFactura:IGenericRepository<Factura>
     {
-        
+        Task<decimal> TotalDineroRecaudadoPorVentasAsync();
     }

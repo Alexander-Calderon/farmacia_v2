@@ -111,20 +111,13 @@ public class EmpleadoController : ApiBaseController
         return mapper.Map<List<EmpleadoDto>>(Empleado);
     }
 
-    // [HttpGet("{id}")]
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("cantidadVentasPorEmpleado")]
+    public async Task<IActionResult> ObtenerCantidadVentasPorEmpleadoAsync()
+    {
+        var ventasPorEmpleado = await unitofwork.Empleados.ObtenerCantidadVentasPorEmpleadoAsync();
 
-    // public async Task<ActionResult<EmpleadoDto>> Get111(int id)
-    // {
-    //     var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
-    //     if (Empleado == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     return this.mapper.Map<EmpleadoDto>(Empleado);
-    // }
+        return Ok(ventasPorEmpleado);
+    }
 
     [HttpGet("GetInfoCantidadVentas")]
     public async Task<IActionResult> GetInfoCantidadVentas()
@@ -158,53 +151,62 @@ public class EmpleadoController : ApiBaseController
         }
         return Ok(this.mapper.Map<IEnumerable<Object>>(Empleado)); // Devuelve la colección si se encontró.
     }
-    /* [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<Empleado>> Post(EmpleadoDto empleadoDto)
+    
+    [HttpGet("empleadosConMasDe5Ventas")]
+    public async Task<IActionResult> ObtenerEmpleadosConMasDe5VentasAsync()
     {
-        var Empleado = this.mapper.Map<Empleado>(empleadoDto);
-        this.unitofwork.Empleados.Add(Empleado);
-        await unitofwork.SaveAsync();
-        if (Empleado == null)
-        {
-            return BadRequest();
-        }
-        empleadoDto.Id = Empleado.Id;
-        return CreatedAtAction(nameof(Post), new { id = empleadoDto.Id }, empleadoDto);
-    } */
+        var empleadosConMasDe5Ventas = await unitofwork.Empleados.ObtenerEmpleadosConMasDe5VentasAsync();
 
-    /* [HttpPut("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-
-    public async Task<ActionResult<EmpleadoDto>> Put(int id, [FromBody] EmpleadoDto empleadoDto)
-    {
-        if (empleadoDto == null)
-        {
-            return NotFound();
-        }
-        var Empleado = this.mapper.Map<Empleado>(empleadoDto);
-        unitofwork.Empleados.Update(Empleado);
-        await unitofwork.SaveAsync();
-        return empleadoDto;
+        return Ok(empleadosConMasDe5Ventas);
     }
+    // [HttpPost]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    // public async Task<ActionResult<Empleado>> Post(EmpleadoDto empleadoDto)
+    // {
+    //     var Empleado = this.mapper.Map<Empleado>(empleadoDto);
+    //     this.unitofwork.Empleados.Add(Empleado);
+    //     await unitofwork.SaveAsync();
+    //     if (Empleado == null)
+    //     {
+    //         return BadRequest();
+    //     }
+    //     empleadoDto.Id = Empleado.Id;
+    //     return CreatedAtAction(nameof(Post), new { id = empleadoDto.Id }, empleadoDto);
+    // } 
 
-    public async Task<IActionResult> Delete(int id)
-    {
-        var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
-        if (Empleado == null)
-        {
-            return NotFound();
-        }
-        unitofwork.Empleados.Remove(Empleado);
-        await unitofwork.SaveAsync();
-        return NoContent();
-    } */
+    //  [HttpPut("{id}")]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+    // public async Task<ActionResult<EmpleadoDto>> Put(int id, [FromBody] EmpleadoDto empleadoDto)
+    // {
+    //     if (empleadoDto == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     var Empleado = this.mapper.Map<Empleado>(empleadoDto);
+    //     unitofwork.Empleados.Update(Empleado);
+    //     await unitofwork.SaveAsync();
+    //     return empleadoDto;
+    // }
+
+    // [HttpDelete("{id}")]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+    // public async Task<IActionResult> Delete(int id)
+    // {
+    //     var Empleado = await unitofwork.Empleados.GetByIdAsync(id);
+    //     if (Empleado == null)
+    //     {
+    //         return NotFound();
+    //     }
+    //     unitofwork.Empleados.Remove(Empleado);
+    //     await unitofwork.SaveAsync();
+    //     return NoContent();
+    // }
 }

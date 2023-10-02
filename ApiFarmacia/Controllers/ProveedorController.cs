@@ -177,6 +177,19 @@ public async Task<IActionResult> MedicamentosCompradosPorProveedorAsync(string p
     return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
 }
 
+[HttpGet("gananciaTotalPorProveedor2023")]
+public async Task<IActionResult> ObtenerGananciaTotalPorProveedor2023Async()
+{
+    var gananciasPorProveedor = await unitofwork.Proveedores.ObtenerGananciaTotalPorProveedor2023Async();
+
+    if (gananciasPorProveedor == null || !gananciasPorProveedor.Any())
+    {
+        return NotFound();
+    }
+
+    return Ok(gananciasPorProveedor);
+}
+
 
 
 

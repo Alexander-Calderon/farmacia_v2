@@ -40,15 +40,22 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<object>> TotalMedicamentosVendidosPorProveedorAsync()
+    {
+        var totalMedicamentosPorProveedor = await (
+            from p in _context.Proveedores
+            join cp in _context.CompraProveedores on p.Id equals cp.IdProveedorFk
+            group cp by new { p.Id, p.Nombre } into g
+            select new
+            {
+                IdProveedor = g.Key.Id,
+                NombreProveedor = g.Key.Nombre,
+                TotalMedicamentosVendidos = g.Sum(x => x.Cantidad)
+            }
+        ).ToListAsync();
 
-
-
-
-
-
-
-
-
+        return totalMedicamentosPorProveedor;
+    }
 
     public async Task<IEnumerable<object>> ObtenerMedicamentosNoVendidosAsync()
     {
@@ -159,7 +166,6 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
             }
         ).ToListAsync();
 
-        // Realizamos el agrupamiento y la suma en memoria
         var resultadosAgrupados = resultados
             .GroupBy(x => new { x.Id, x.Nombre, Mes = x.FechaCreacion.ToString("yyyy-MM") })
             .Select(g => new
@@ -167,7 +173,7 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
                 g.Key.Id,
                 g.Key.Nombre,
                 Mes = g.Key.Mes,
-                Total = g.Sum(x => 1)  // Contamos la cantidad de registros para obtener el total
+                Total = g.Sum(x => 1)  
             })
             .ToList();
 
@@ -242,18 +248,80 @@ public class MedicamentoRepository : GenericRepository<Medicamento>, IMedicament
         return medicamentosCaducados;
     }
 
+    public async Task<IEnumerable<Medicamento>> MedicamentosNoVendidosAsync()
+    {
+        var medicamentosNoVendidos = await (
+            from m in _context.Medicamentos
+            where !_context.DetalleFacturas.Any(df => df.IdMedicamentoFk == m.Id)
+            select m
+        ).ToListAsync();
+
+        return medicamentosNoVendidos;
+    }
+
+    public async Task<Medicamento> ObtenerMedicamentoMasCaroAsync()
+    {
+        var medicamentoMasCaro = await _context.Medicamentos
+            .OrderByDescending(m => m.PrecioUnitario)
+            .FirstOrDefaultAsync();
+
+        return medicamentoMasCaro;
+    }
 
     
+    public async Task<int> ObtenerTotalMedicamentosVendidosMarzo2023Async()
+    {
+        var totalMedicamentosVendidos = await (
+            from df in _context.DetalleFacturas
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            where f.FechaCreacion >= new DateTime(2023, 3, 1) && f.FechaCreacion <= new DateTime(2023, 3, 31)
+            select df.Cantidad
+        ).SumAsync();
 
+        return totalMedicamentosVendidos;
+    }
 
+    public async Task<object> ObtenerMedicamentoMenosVendido2023Async()
+    {
+        var medicamentoMenosVendido = await (
+            from df in _context.DetalleFacturas
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+            where f.FechaCreacion >= new DateTime(2023, 1, 1) && f.FechaCreacion <= new DateTime(2023, 12, 31)
+            group new { df, m } by new { df.IdMedicamentoFk, m.Nombre } into g
+            orderby g.Sum(x => x.df.Cantidad) ascending
+            select new
+            {
+                Id = g.Key.IdMedicamentoFk,
+                NombreMedicamento = g.Key.Nombre,
+                TotalVentas = g.Sum(x => x.df.Cantidad)
+            }
+        ).FirstOrDefaultAsync();
 
-
-
-
-
-
+        return medicamentoMenosVendido;
+    }
     
+    public async Task<double> ObtenerPromedioMedicamentosPorVentaAsync()
+    {
+        var promedioMedicamentosPorVenta = await (
+            from cp in _context.CompraProveedores
+            join df in _context.DetalleFacturas on cp.IdMedicamentoFk equals df.IdMedicamentoFk
+            select df.Cantidad
+        ).AverageAsync();
 
+        return promedioMedicamentosPorVenta;
+    }
+
+    public async Task<IEnumerable<Medicamento>> ObtenerMedicamentosExpiranEn2024Async()
+    {
+        var medicamentosExpiranEn2024 = await (
+            from m in _context.Medicamentos
+            where m.FechaVencimiento >= new DateTime(2024, 1, 1) && m.FechaVencimiento <= new DateTime(2024, 12, 31)
+            select m
+        ).ToListAsync();
+
+        return medicamentosExpiranEn2024;
+    }
 
 
 

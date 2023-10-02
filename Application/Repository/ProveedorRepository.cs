@@ -209,5 +209,26 @@ public async Task<IEnumerable<object>> MedicamentosCompradosPorProveedorAsync(st
     return resultados;
 }
 
+    public async Task<IEnumerable<object>> ObtenerGananciaTotalPorProveedor2023Async()
+    {
+        var gananciasPorProveedor = await (
+            from cp in _context.CompraProveedores
+            join df in _context.DetalleFacturas on cp.IdMedicamentoFk equals df.IdMedicamentoFk
+            join m in _context.Medicamentos on df.IdMedicamentoFk equals m.Id
+            join f in _context.Facturas on df.IdFacturaFk equals f.Id
+            join p in _context.Proveedores on cp.IdProveedorFk equals p.Id
+            where f.FechaCreacion >= new DateTime(2023, 1, 1) && f.FechaCreacion <= new DateTime(2023, 12, 31)
+            group new { cp, df, m, p } by new { p.Id, p.Nombre } into g
+            select new
+            {
+                IdProveedor = g.Key.Id,
+                NombreProveedor = g.Key.Nombre,
+                GananciaTotal = g.Sum(x => x.df.Cantidad * (x.df.PrecioUnitario - x.m.PrecioUnitario))
+            }
+        ).ToListAsync();
+
+        return gananciasPorProveedor;
+    }
+
 
 }
