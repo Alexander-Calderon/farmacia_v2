@@ -128,10 +128,10 @@ public class MedicamentoController : ApiBaseController
 
         if (totalMedicamentos == 0)
         {
-            return NotFound(); // Devuelve 404 si el total es cero.
+            return NotFound(); 
         }
 
-        return Ok(totalMedicamentos); // Devuelve el total como un valor entero.
+        return Ok(totalMedicamentos); 
     }
     [HttpGet("consulta38")]
     public async Task<IActionResult> MedicamentosConPrecioYStockAsync()
@@ -140,10 +140,10 @@ public class MedicamentoController : ApiBaseController
 
         if (totalMedicamentos == null || !totalMedicamentos.Any())
         {
-            return NotFound(); // Devuelve 404 si la colección está vacía.
+            return NotFound(); 
         }
 
-        return Ok(totalMedicamentos); // Devuelve la colección si no está vacía.
+        return Ok(totalMedicamentos); 
     }
 
 
@@ -206,8 +206,8 @@ public class MedicamentoController : ApiBaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IEnumerable<MedicamentoDto>>> GetStockMenorA50()
     {
-        var medicamentos = await unitofwork.Medicamentos.GetCantidadMenorA50(); //Redirecciono al método que devuelve lo solicitado en este EndPoint.
-        var medicamentoDtos = mapper.Map<List<MedicamentoDto>>(medicamentos); // luego los datos completos del método les aplico un filtro usando un Dto para elegir que datos voy a mostrar.
+        var medicamentos = await unitofwork.Medicamentos.GetCantidadMenorA50();
+        var medicamentoDtos = mapper.Map<List<MedicamentoDto>>(medicamentos);
         return Ok(medicamentoDtos); 
     }
 

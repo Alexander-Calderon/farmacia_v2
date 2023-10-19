@@ -20,7 +20,7 @@ public class DetalleFacturaController : ApiBaseController
 
 
     [HttpGet]
-    // [MapToApiVersion("1.0")]
+    
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 

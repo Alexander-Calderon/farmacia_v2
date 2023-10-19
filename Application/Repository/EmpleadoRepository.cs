@@ -70,22 +70,6 @@ public class EmpleadoRepository : GenericRepository<Empleado>, IEmpleado
 
 
 
-    public async Task<IEnumerable<Object>> GetInfoCantidadVentas()
-    {
-        var result = await (
-            from df in _context.DetalleFacturas
-            join f in _context.Facturas on df.IdFacturaFk equals f.Id
-            where f.FechaCreacion >= new DateTime(2023, 1, 1)
-            group df by df.IdMedicamentoFk into grouped
-            select new
-            {
-                IdEmpleadoFK = grouped.Key,
-                TotalVentas = grouped.Count()
-            }
-        ).ToListAsync();
-
-        return result;
-    }
 
     public async Task<IEnumerable<Object>> GetEmpleadocon5Ventas()
     {

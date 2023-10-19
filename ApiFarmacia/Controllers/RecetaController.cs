@@ -101,10 +101,10 @@ namespace APIFarmacia.Controllers;
 
         if (receta == null || !receta.Any())
         {
-            return NotFound(); // Devuelve 404 si la colección está vacía.
+            return NotFound(); 
         }
 
-        return Ok(receta); // Devuelve la colección si no está vacía.
+        return Ok(receta); 
     }
 
     

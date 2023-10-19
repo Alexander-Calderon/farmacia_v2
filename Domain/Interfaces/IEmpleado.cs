@@ -10,13 +10,12 @@ namespace Domain.Interfaces;
     {
         Task<IEnumerable<Empleado>> ObtenerEmpleadosSinFacturasAsync();
         Task<IEnumerable<object>> ObtenerTotalVentas5PorEmpleadoAsync();
-        Task<IEnumerable<Object>> GetInfoCantidadVentas();
         Task<IEnumerable<Object>> GetEmpleadocon5Ventas();
         Task<object> EmpleadoMaxMedicamentosDistintos(int year);
         Task<IEnumerable<object>> EmpleadosSinVentasEnAbril2023Async();
 
-         Task<IEnumerable<object>> ObtenerCantidadVentasPorEmpleadoAsync();
+        Task<IEnumerable<object>> ObtenerCantidadVentasPorEmpleadoAsync();
 
-          Task<IEnumerable<object>> ObtenerEmpleadosConMasDe5VentasAsync();
+        Task<IEnumerable<object>> ObtenerEmpleadosConMasDe5VentasAsync();
 
     }

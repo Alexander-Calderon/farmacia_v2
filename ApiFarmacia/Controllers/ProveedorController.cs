@@ -147,7 +147,7 @@ public class ProveedorController : ApiBaseController
 
         if (proveedores == null || !proveedores.Any())
         {
-            return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+            return NotFound(); 
         }
 
         return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
@@ -159,7 +159,7 @@ public class ProveedorController : ApiBaseController
 
         if (proveedores == null || !proveedores.Any())
         {
-            return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+            return NotFound(); 
         }
 
         return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
@@ -171,7 +171,7 @@ public async Task<IActionResult> MedicamentosCompradosPorProveedorAsync(string p
 
     if (proveedores == null || !proveedores.Any())
     {
-        return NotFound(); // Devuelve 404 si no se encontraron proveedores.
+        return NotFound(); 
     }
 
     return Ok(this.mapper.Map<IEnumerable<object>>(proveedores));
